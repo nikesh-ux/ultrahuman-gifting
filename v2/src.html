@@ -1403,6 +1403,9 @@ body #hiw .hiw-steps .hs h4,body #hiw .hiw-steps .hs .n{transition:color .45s ea
 body #hiw .hiw-steps::after{transition:height .6s cubic-bezier(.22,.7,.2,1)}
 body #hiw:not(.paused) .hiw-steps::after{transition:none}
 body #hiw .hiw-vis .layer.in{animation-duration:.9s;animation-timing-function:cubic-bezier(.22,.7,.2,1)}
+
+/* hero is open: no box, the frames start below it */
+.hmin.stack{margin:0!important;border-radius:0!important;background:transparent!important;height:max(calc(100svh - var(--hdr,76px)),540px)!important}
 </style>
 
 <header class="nav" id="nav">
@@ -2135,7 +2138,7 @@ function render(keep){
   const r=route();const _restore=(S._r!==undefined&&S._r!==r&&scKey(r)==='lp'&&SC.lp!==undefined)?SC.lp:null;if(S._r!==r){S.hstep=0;S._r=r}$('#app').innerHTML=(ROUTES[r]||viewLanding)();document.body.dataset.lp=(!ROUTES[r]||r==='gifting')?'1':'0';
   $('#regionLabel').textContent=st().flag;
   paintBar();paintSub();paintMenus();paintProto();FX.setup();onScroll();
-  {const hx=$('.hmin.stack');if(hx)document.documentElement.style.setProperty('--hdr',Math.round(hx.getBoundingClientRect().top+scrollY-10)+'px')}
+  {const hx=$('.hmin.stack');if(hx)document.documentElement.style.setProperty('--hdr',Math.round(hx.getBoundingClientRect().top+scrollY)+'px')}
   if(keep===true)scrollTo(0,y);else if(_restore!==null){scrollTo({top:_restore,behavior:'instant'});requestAnimationFrame(()=>scrollTo({top:_restore,behavior:'instant'}))}else scrollTo(0,0);
   if(r==='success'&&keep!==true)setTimeout(()=>{confetti(innerWidth*.5,innerHeight*.28,70,['#112BAF','#8fb0ff','#ffffff','#f4e0ac','#6BF2A9'],1.4)},450);
 }
