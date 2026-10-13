@@ -1704,6 +1704,15 @@ body[data-lp="0"] .bx-q p{font-size:16px;line-height:1.6;letter-spacing:-.6px;co
 }
 body[data-lp="0"] .bx-stats,body[data-lp="0"] .bx-stats>div,body[data-lp="0"] .bx-stats h3,body[data-lp="0"] .bx-stats p{text-align:left}
 body[data-lp="0"] .bx-stats>div>*{align-self:flex-start}
+/* more air between the three gift cards */
+body[data-lp="1"] .gs:not(#paths){margin:0 0 clamp(40px,5vw,72px)!important}
+body[data-lp="1"] .gs:not(#paths):last-of-type{margin-bottom:0!important}
+/* taller gift cards with more top/bottom padding */
+body[data-lp="1"] .gs:not(#paths) .gpanel .gvis{min-height:clamp(500px,46vw,720px)!important}
+body[data-lp="1"] .gs:not(#paths) .gpanel .gtxt{padding:clamp(48px,6vw,96px) clamp(28px,3.4vw,56px)!important;gap:20px!important}
+body[data-lp="1"] .gs .gf li{padding:16px 0}
+body[data-lp="1"] .gs .gcta{margin-top:12px}
+@media(max-width:900px){body[data-lp="1"] .gs:not(#paths) .gpanel .gtxt{padding:40px 20px!important}}
 </style>
 
 <header class="nav" id="nav">
