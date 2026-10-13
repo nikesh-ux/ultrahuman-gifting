@@ -1,0 +1,222 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Gifting Landing Ideations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: a design board. Ten full-length landing page wireframes in a horizontal row, each scaled to a
+   readable thumbnail with a one-line idea above it. Click one to read it full size. */
+:root{--bg:#F4F4F1;--ink:#0b0b0d;--ink-2:rgba(0,0,0,.58);--ink-3:rgba(0,0,0,.38);--line:#DEDDD8;--blue:#112BAF;
+  --sans:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;letter-spacing:-.011em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+.bar{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding:clamp(28px,4vw,56px) clamp(16px,3vw,48px) 28px}
+.bar h1{font-size:clamp(30px,3.6vw,52px);font-weight:400;letter-spacing:-.055em;line-height:1.05}
+.bar h1 span{color:var(--ink-3)}
+.bar p{color:var(--ink-2);font-size:15px;max-width:420px}
+.nav2{display:flex;gap:8px;align-items:center}
+.nav2 button{width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid var(--line);display:grid;place-items:center;transition:.2s}
+.nav2 button:hover{border-color:#000}
+.board{display:flex;gap:28px;overflow-x:auto;padding:8px clamp(16px,3vw,48px) 72px;scroll-snap-type:x proximity;align-items:flex-start;scrollbar-width:thin}
+.item{flex:none;width:var(--bw,420px);scroll-snap-align:start;text-align:left}
+.cap{display:grid;gap:4px;margin-bottom:14px;padding-right:12px}
+.cap b{font-size:17px;font-weight:450;letter-spacing:-.035em;display:flex;gap:10px;align-items:baseline}
+.cap b i{font:500 12px var(--mono);font-style:normal;color:var(--ink-3)}
+.cap span{font-size:13px;color:var(--ink-2);line-height:1.5;min-height:40px}
+.pg{display:block;width:100%;text-align:left;position:relative;overflow:hidden;border-radius:14px;background:#fff;cursor:zoom-in;border:1px solid var(--line);transition:box-shadow .3s,transform .3s cubic-bezier(.2,.7,.2,1)}
+.pg:hover{box-shadow:0 22px 50px rgba(0,0,0,.12);transform:translateY(-3px)}
+.pg .wf{transform-origin:0 0;pointer-events:none;border:0;border-radius:0}
+/* viewer */
+.vw{position:fixed;inset:0;z-index:50;background:rgba(18,18,20,.72);backdrop-filter:blur(6px);display:none}
+.vw.on{display:block}
+.vw-in{position:absolute;inset:0;display:flex;flex-direction:column}
+.vw-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px clamp(16px,3vw,32px);background:#fff;border-bottom:1px solid var(--line)}
+.vw-top b{font-weight:450;letter-spacing:-.03em;font-size:17px}.vw-top span{color:var(--ink-2);font-size:13px;margin-left:12px}
+.vw-top .nav2 button{width:38px;height:38px}
+.vw-body{flex:1;overflow:auto;padding:28px clamp(12px,3vw,40px) 80px}
+.vw-fr{margin:0 auto;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.vw-fr .wf{transform-origin:0 0;border:0;border-radius:0}
+
+/* =============== WIREFRAME PRIMITIVES (fixed 1200px canvas) =============== */
+.wf{width:1200px;background:#fff;color:#111;font:14px/1.5 var(--sans);letter-spacing:-.01em;border:1px solid #d9d9d9;border-radius:14px;overflow:hidden;position:relative;text-align:left}
+.wf *{box-sizing:border-box}
+.w-nav{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 40px;border-bottom:1px solid #ececec}
+.w-logo{font-weight:800;font-style:italic;letter-spacing:-.04em;font-size:16px}
+.w-links{display:flex;gap:28px;font-size:13px;align-items:center}
+.w-link{text-decoration:underline;text-underline-offset:3px}
+.w-btn{height:40px;padding:0 20px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;background:#112BAF;color:#fff;white-space:nowrap}
+.w-btn.k{background:#111}.w-btn.o{background:#fff;color:#111;border:1.5px solid #cfcfcf}.w-btn.lg{height:48px;padding:0 26px;font-size:14px}.w-btn.sm{height:32px;padding:0 14px;font-size:12px}.w-btn.full{width:100%}
+.w-h1{font-size:72px;font-weight:400;letter-spacing:-.06em;line-height:1.02}.w-h1.m{font-size:54px}.w-h1.s{font-size:44px}
+.w-h2{font-size:34px;font-weight:400;letter-spacing:-.05em;line-height:1.1}
+.w-h3{font-size:22px;font-weight:450;letter-spacing:-.04em;line-height:1.15}
+.w-sub{color:#666;font-size:17px}.w-p{color:#666;font-size:14px;line-height:1.55}
+.w-ph{background:#f2f2f2;border:1.5px dashed #c9c9c9;border-radius:14px;display:grid;place-items:center;color:#9a9a9a;font:500 10px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:8px}
+.w-card{border:1.5px solid #cfcfcf;border-radius:20px;padding:26px;background:#fff;display:flex;flex-direction:column;gap:12px;position:relative}
+.w-card.sel{border-color:#111;box-shadow:0 0 0 1px #111}.w-card.dash{border-style:dashed;background:#fafafa}
+.w-chip{height:34px;padding:0 16px;border:1.5px solid #cfcfcf;border-radius:999px;display:inline-flex;align-items:center;font-size:13px;white-space:nowrap}.w-chip.on{background:#111;color:#fff;border-color:#111}
+.w-in{height:50px;border:1.5px solid #cfcfcf;border-radius:12px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;color:#8a8a8a;font-size:14px}
+.w-lbl{font-size:12px;color:#777;margin-bottom:8px;display:block}
+.w-tag{font:500 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#888}.w-tag.pri{color:#112BAF}
+.w-sep{height:1px;background:#e8e8e8}
+.w-radio{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px;border:1.5px solid #cfcfcf;border-radius:14px}.w-radio.sel{border-color:#111}
+.w-radio b{font-weight:500;display:block;letter-spacing:-.02em}.w-radio span.s{color:#777;font-size:13px}
+.w-dot{flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid #bbb}.w-dot.on{border:5px solid #111}
+.w-seg{display:inline-flex;border:1.5px solid #cfcfcf;border-radius:999px;padding:3px;gap:2px}.w-seg span{height:34px;padding:0 18px;display:inline-flex;align-items:center;border-radius:999px;font-size:13px;color:#666}.w-seg span.on{background:#111;color:#fff}
+.w-step{display:flex;align-items:center;border:1.5px solid #cfcfcf;border-radius:999px;height:50px;width:200px;justify-content:space-between;padding:0 8px}
+.w-step i{font-style:normal;width:34px;height:34px;border-radius:50%;background:#f2f2f2;display:grid;place-items:center;font-size:18px;color:#444}.w-step b{font-weight:400;font-size:22px;letter-spacing:-.04em}
+.w-bands{display:flex;gap:4px}.w-bands span{flex:1;height:44px;border-radius:10px;background:#f2f2f2;display:grid;place-items:center;font-size:11px;color:#777}.w-bands span.on{background:#112BAF;color:#fff}.w-bands span.p{background:#dfe5ff;color:#445}
+.w-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.w-g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.w-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.w-foot{display:flex;justify-content:space-between;align-items:center;margin-top:96px;padding:26px 40px;background:#fafafa;border-top:1px solid #ececec;color:#888;font-size:12px}
+.w-steps{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:20px}.w-steps div{display:grid;gap:6px;align-content:start}.w-steps b{font:400 28px var(--sans);letter-spacing:-.05em;color:#bbb}
+.an{position:absolute;left:14px;top:-10px;background:#fff;border:1px solid #cfcfcf;border-radius:6px;font:500 9px var(--mono);padding:2px 7px;color:#888;letter-spacing:.08em;text-transform:uppercase;z-index:2;white-space:nowrap}
+.blk{position:relative}.w-center{text-align:center}
+.w-faq{display:grid;border-top:1px solid #e6e6e6}.w-faq div{display:flex;justify-content:space-between;padding:20px 0;border-bottom:1px solid #e6e6e6;font-size:15px}.w-faq i{font-style:normal;color:#999}
+.w-utabs{display:flex;border-bottom:1.5px solid #e2e2e2;max-width:520px;margin:0 auto 40px}.w-utabs span{flex:1;text-align:center;padding:14px 8px;font-size:14px;color:#888;border-bottom:2px solid transparent;margin-bottom:-1.5px}.w-utabs span.on{color:#111;border-color:#111}
+.w-occ{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid #cfcfcf;border-radius:20px;overflow:hidden}.w-occ div{padding:22px 24px;border-left:1px solid #e2e2e2;border-top:1px solid #e2e2e2;min-height:104px}.w-occ div:nth-child(-n+3){border-top:0}.w-occ div:nth-child(3n+1){border-left:0}.w-occ b{font-weight:450;font-size:16px;letter-spacing:-.03em;display:block}.w-occ span{color:#888;font-size:12px}
+.w-cols{display:grid;grid-template-columns:repeat(3,1fr)}.w-cols>div{padding:6px 32px;border-left:1px solid #d9d9d9}.w-cols>div:first-child{border-left:0;padding-left:0}
+.w-prow{display:grid;grid-template-columns:150px 1fr 190px 120px;gap:28px;align-items:center;padding:28px 0;border-bottom:1px solid #e6e6e6}
+.w-panel{display:grid;grid-template-columns:1fr 1.1fr;gap:0;background:#f7f7f5;border-radius:24px;padding:10px;margin-bottom:12px;align-items:stretch}.w-panel.rev{grid-template-columns:1.1fr 1fr}.w-panel.rev .w-ph{order:-1}
+.w-panel .t{padding:44px 48px;display:grid;gap:16px;align-content:center;justify-items:start}
+</style>
+
+<div class="bar">
+  <h1>Main landing page.<br><span>Ten ideations.</span></h1>
+  <div style="display:grid;gap:14px;justify-items:start"><p>Each one is the full page, top to bottom: hero, gifts, how it works, occasions, what they get, FAQ, footer. Click a page to read it full size.</p>
+    <div class="nav2"><button type="button" id="prev" aria-label="Scroll left"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 2L4 7l5 5"/></svg></button><button type="button" id="next" aria-label="Scroll right"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2l5 5-5 5"/></svg></button></div></div>
+</div>
+<div class="board" id="board"></div>
+
+<div class="vw" id="vw" role="dialog" aria-modal="true" aria-label="Full size wireframe">
+  <div class="vw-in"><div class="vw-top"><div><b id="vt"></b><span id="vs"></span></div><div class="nav2"><button type="button" id="vp" aria-label="Previous"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 2L4 7l5 5"/></svg></button><button type="button" id="vn" aria-label="Next"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2l5 5-5 5"/></svg></button><button type="button" id="vx" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2l10 10M12 2L2 12"/></svg></button></div></div>
+  <div class="vw-body" id="vb"><div class="vw-fr" id="vf"></div></div></div>
+</div>
+
+<script>
+/* ---------- primitives ---------- */
+const an=t=>`<span class="an">${t}</span>`;
+const ph=(l,h=200,w='100%',x='')=>`<div class="w-ph" style="height:${h}px;width:${w};${x}">${l}</div>`;
+const btn=(t,c='')=>`<span class="w-btn ${c}">${t}</span>`;
+const chip=(t,on)=>`<span class="w-chip ${on?'on':''}">${t}</span>`;
+const nav=()=>`<div class="w-nav"><span class="w-logo">ULTRAHUMAN</span><div class="w-links"><span>Ultrahuman Ring</span><span>Shop</span><span class="w-link">Redeem</span><span class="w-btn">Pre-order now</span></div></div>`;
+const foot=()=>`<div class="w-foot"><span>Standard Ultrahuman footer</span><span class="w-tag">links · legal · app · wordmark</span></div>`;
+const sec=(label,inner,p='96px 80px 0')=>`<section class="blk" style="padding:${p}">${an(label)}${inner}</section>`;
+const head=(t,s,al='center')=>`<div style="text-align:${al};margin-bottom:48px"><h2 class="w-h2" style="font-size:42px">${t}</h2>${s?`<p class="w-sub" style="margin-top:12px;${al==='center'?'margin-inline:auto;':''}max-width:560px">${s}</p>`:''}</div>`;
+
+/* ---------- content (from the brief) ---------- */
+const P=[
+ {n:'Sizing kits',tag:'For teams · Most chosen',line:'Buy in bulk at a volume discount. Everyone sizes themselves, then picks their ring.',f:['Up to 25% off with volume','Ships to you in 24 hours','Codes valid 6 months'],price:'From $262 per kit',cta:'Build an order',pri:1},
+ {n:'Ring vouchers',tag:'For teams · No sizing',line:'Pick a value, get the codes, pass them on. They spend it on anything.',f:['Seven values, up to 50 codes','Share or download as CSV','Balance stays on the code'],price:'From $50 per code',cta:'Choose a value'},
+ {n:'Gift card',tag:'For one person',line:'Pay for the ring. They get an email, then choose size and finish.',f:['Full ring price, nothing extra','Sent now or on a date','Pick a card design'],price:'$349',cta:'Send a gift'}];
+const W=[['The ring','A smart ring for sleep, recovery and movement.'],['A gift that keeps giving back','Good health shows up every morning.'],['Their choice','Size, finish and model are theirs.']];
+const R=[['Ring','In the size and finish they choose.'],['App','Sleep, recovery and movement.'],['Membership','Included from day one.']];
+const HW={kits:[['Purchase','Choose ring and quantity'],['Send','Kits ship to you'],['Pick size','They size at home'],['Pick finish','They choose their finish'],['Redeem','They enter their code']],
+ vouch:[['Pick a value','Up to 50 codes'],['We send codes','Instantly'],['Share or download','Message or CSV'],['They choose','Apply at checkout']],
+ gift:[['Choose the ring','Pay the full price'],['We email them','Now or on a date'],['They redeem','Size and finish are theirs']]};
+const OC={c:[['Team milestones','Sizing kits'],['Client gifts','Vouchers'],['Leadership gifts','Sizing kits'],['Events and conferences','Vouchers'],['Rewards and incentives','Vouchers'],['Festive season','Sizing kits']],
+ i:[['Birthdays','Gift card'],['Anniversaries','Gift card'],['Festive season','Gift card'],['New beginnings','Gift card'],['Parents','Gift card'],['Graduation','Gift card']]};
+const FQ=['Which regions can I gift in?','Do codes expire?','What happens to unused balance?','What about returns?','Can one code be shared between people?'];
+
+/* ---------- section builders (variants) ---------- */
+const S={
+ why:(v)=>sec('Why gift Ultrahuman',head('A gift that keeps giving back.','Every morning, not just the day it is opened.')+(v==='inline'?`<div class="w-row" style="justify-content:center;gap:48px">${W.map(x=>`<span><b style="font-weight:500">${x[0]}</b> <span class="w-p">${x[1]}</span></span>`).join('')}</div>`:v==='line'?`<div class="w-cols">${W.map(x=>`<div><h3 class="w-h2" style="font-size:30px;font-weight:300">${x[0]}</h3><p class="w-p" style="margin-top:12px">${x[1]}</p></div>`).join('')}</div>`:`<div class="w-g3">${W.map(x=>`<div>${ph('Visual',190)}<h3 class="w-h3" style="margin-top:16px">${x[0]}</h3><p class="w-p" style="margin-top:6px">${x[1]}</p></div>`).join('')}</div>`)),
+ cols:(compare)=>sec('Pick your path · 3 products',head('Three ways to give.','One ring at the end of each.')+`<div class="w-g3">${P.map(p=>`<div class="w-card ${p.pri?'sel':''}"><span class="w-tag ${p.pri?'pri':''}">${p.tag}</span>${ph('Product visual',140)}<h3 class="w-h3" style="margin-top:6px">${p.n}</h3><p class="w-p">${p.line}</p><div style="font-size:18px;letter-spacing:-.03em">${p.price}</div><div style="display:grid;gap:5px;color:#555;font-size:13px">${p.f.map(x=>`<span>■ ${x}</span>`).join('')}</div><div style="margin-top:8px">${btn(p.cta,p.pri?'full':'o full')}</div></div>`).join('')}</div>`+(compare?`<div class="w-card" style="padding:0;margin-top:20px"><div style="display:grid;grid-template-columns:150px 1fr 1fr 1fr;font-size:13px;color:#555">${['','Needs sizing?','Delivery','Best for','Kits','Yes, at home','Ships to you','Same ring for everyone','Vouchers','No','Instant codes','They spend on anything'].map((x,i)=>`<div style="padding:13px 18px;border-bottom:1px solid #eee;${i%4===0?'font-weight:500;color:#111':''}">${x}</div>`).join('')}</div></div>`:'')),
+ panels:()=>sec('Pick your path · 3 product panels',head('Three ways to give.','One ring at the end of each.')+P.map((p,i)=>`<div class="w-panel ${i===1?'rev':''}"><div class="t"><span class="w-tag ${p.pri?'pri':''}">${p.tag}</span><h3 class="w-h1 s" style="font-size:44px">${p.n}</h3><p class="w-sub" style="font-size:15px;max-width:360px">${p.line}</p><div style="display:grid;gap:6px;font-size:13px;color:#555">${p.f.map(x=>`<span>■ ${x}</span>`).join('')}</div><span>${p.price}</span><div class="w-row">${btn(p.cta,'lg')}${btn('How it works','o lg')}</div></div>${ph('Visual',360)}</div>`).join(''),'96px 10px 0'),
+ rows:()=>sec('Pick your path · product rows',head('Gifting','','left')+`<div style="border-top:1px solid #e6e6e6">${P.map(p=>`<div class="w-prow">${ph('Visual',84,'150px')}<div><h3 class="w-h3">${p.n} ${p.pri?'<span class="w-tag pri" style="margin-left:8px">Most chosen</span>':''}</h3><p class="w-p" style="margin-top:6px;max-width:480px">${p.line}</p></div><span style="font-size:16px">${p.price}</span>${btn('Buy',p.pri?'':'k')}</div>`).join('')}</div>`),
+ how:(v)=>sec('How it works · separate for each product',head('How it works','Simple to send. Easy to receive.')+(v==='three'?`<div class="w-g3">${[['Sizing kits',HW.kits.slice(0,3)],['Ring vouchers',HW.vouch.slice(0,3)],['Gift card',HW.gift]].map(c=>`<div><span class="w-tag pri">${c[0]}</span><div style="display:grid;gap:14px;margin-top:16px">${c[1].map((s,i)=>`<div style="display:grid;grid-template-columns:34px 1fr"><b style="font:400 22px var(--sans);color:#bbb">0${i+1}</b><span><b style="font-weight:500">${s[0]}</b><br><span class="w-p">${s[1]}</span></span></div>`).join('')}</div></div>`).join('')}</div>`:v==='inline'?`<div class="w-steps" style="--n:3">${HW.gift.map((s,i)=>`<div><b>0${i+1}</b><span style="font-weight:500">${s[0]}</span><span class="w-p">${s[1]}</span></div>`).join('')}</div>`:`<div class="w-utabs"><span class="on">Sizing kits</span><span>Vouchers</span><span>Gift card</span></div><div style="display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:center"><div style="display:grid;gap:0;border-top:1px solid #e6e6e6">${HW.kits.map((s,i)=>`<div style="padding:18px 0;border-bottom:1px solid #e6e6e6;${i?'color:#999':''}"><span class="w-tag">0${i+1}</span> <b style="font-weight:450;font-size:19px;letter-spacing:-.03em;margin-left:8px">${s[0]}</b>${i?'':`<p class="w-p" style="margin:6px 0 0 34px">${s[1]}</p>`}</div>`).join('')}</div>${ph('Step visual',330)}</div>`)),
+ occ:(v)=>sec('Occasions · corporate and individual',head('Occasions','Pick the moment. We point you to the right gift.')+(v==='chips'?`<div style="display:grid;gap:28px;max-width:900px;margin:0 auto"><div><span class="w-tag pri">Corporate</span><div class="w-row" style="margin-top:12px">${OC.c.map(o=>chip(o[0])).join('')}</div></div><div><span class="w-tag">Individual</span><div class="w-row" style="margin-top:12px">${OC.i.map(o=>chip(o[0])).join('')}</div></div></div>`:`<div class="w-utabs"><span class="on">Corporate</span><span>Individual</span></div><div class="w-occ">${OC.c.map(o=>`<div><b>${o[0]}</b><span>${o[1]} →</span></div>`).join('')}</div>`)),
+ recv:(v)=>sec('What the recipient gets',head('Ring. App. Membership.','Ready on day one.')+(v==='line'?`<div class="w-cols">${R.map(x=>`<div><h3 class="w-h2" style="font-size:30px;font-weight:300">${x[0]}</h3><p class="w-p" style="margin-top:12px">${x[1]}</p></div>`).join('')}</div>`:`<div class="w-g3">${R.map(x=>`<div>${ph('Visual',180)}<h3 class="w-h3" style="margin-top:16px">${x[0]}</h3><p class="w-p">${x[1]}</p></div>`).join('')}</div>`)),
+ faq:(v)=>sec('FAQ',v==='two'?`<div style="display:grid;grid-template-columns:1fr 1.6fr;gap:64px"><h2 class="w-h2" style="font-size:42px">Good to know.</h2><div class="w-faq">${FQ.map(q=>`<div><span>${q}</span><i>+</i></div>`).join('')}</div></div>`:`${head('Good to know')}<div class="w-faq" style="max-width:760px;margin:0 auto">${FQ.map(q=>`<div><span>${q}</span><i>+</i></div>`).join('')}</div>`)
+};
+const heroC=(o={})=>sec('Hero',`<div class="w-center"><h1 class="w-h1">Give the gift<br>of good health.</h1><p class="w-sub" style="margin:20px auto 28px;max-width:480px">One ring, chosen by them. For a team of five hundred or the one person you love.</p><div class="w-row" style="justify-content:center">${btn('Gift your team','lg')}${btn('Gift someone','o lg')}</div>${o.stack?`<div style="margin-top:56px;display:flex;justify-content:center;gap:0;align-items:flex-end;height:260px;position:relative"><div class="w-ph" style="width:200px;height:250px;transform:rotate(-8deg) translateX(40px);opacity:.7">Card</div><div class="w-ph" style="width:220px;height:270px;z-index:2">Card · active</div><div class="w-ph" style="width:200px;height:250px;transform:rotate(8deg) translateX(-40px);opacity:.7">Card</div></div>`:''}</div>`,'88px 80px 0');
+
+/* ---------- ten pages ---------- */
+const V=[
+{t:'Stacked panels',d:'Where the prototype is now. Minimal hero with a card stack, then each gift gets its own full-width panel.',
+ h:()=>nav()+heroC({stack:1})+S.panels()+S.how()+S.occ()+S.recv()+S.faq()+foot()},
+
+{t:'Three columns',d:'The classic. Compare all three side by side, with a comparison row and a "why gift" block up top.',
+ h:()=>nav()+heroC()+S.why()+S.cols(1)+S.how('three')+S.occ('chips')+S.recv('line')+S.faq('two')+foot()},
+
+{t:'Two tracks',d:'The page is split by audience. Teams get a full block with both team gifts. One person gets their own block.',
+ h:()=>nav()+sec('Hero · two doors',`<div class="w-center"><h1 class="w-h1">Give the gift<br>of good health.</h1></div><div class="w-g2" style="margin-top:56px"><div class="w-card sel" style="min-height:240px"><span class="w-tag pri">For teams</span><h3 class="w-h2">For my team</h3><p class="w-p">Sizing kits and vouchers.</p><div style="margin-top:auto">${btn('Gift a team ↓','lg')}</div></div><div class="w-card" style="min-height:240px"><span class="w-tag">For one person</span><h3 class="w-h2">For someone I love</h3><p class="w-p">A gift card for one ring.</p><div style="margin-top:auto">${btn('Send a gift ↓','k lg')}</div></div></div>`,'88px 80px 0')
+  +sec('Track A · For teams',`<div style="background:#f7f7f5;border-radius:28px;padding:48px"><h2 class="w-h2">For teams</h2><div class="w-g2" style="margin:32px 0">${P.slice(0,2).map(p=>`<div class="w-card ${p.pri?'sel':''}"><span class="w-tag ${p.pri?'pri':''}">${p.tag}</span>${ph('Visual',110)}<h3 class="w-h3">${p.n}</h3><p class="w-p">${p.line}</p><span>${p.price}</span>${btn(p.cta,p.pri?'':'o')}</div>`).join('')}</div><div class="w-steps" style="--n:5">${HW.kits.map((s,i)=>`<div><b>0${i+1}</b><span style="font-weight:500">${s[0]}</span></div>`).join('')}</div><div class="w-row" style="margin-top:28px">${OC.c.map(o=>chip(o[0])).join('')}</div></div>`,'64px 80px 0')
+  +sec('Track B · For one person',`<div style="background:#f7f7f5;border-radius:28px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center"><div style="display:grid;gap:16px;justify-items:start"><h2 class="w-h2">For one person</h2><p class="w-sub" style="font-size:15px">${P[2].line}</p><div class="w-steps" style="--n:3;width:100%">${HW.gift.map((s,i)=>`<div><b>0${i+1}</b><span style="font-weight:500">${s[0]}</span></div>`).join('')}</div><div class="w-row">${OC.i.slice(0,4).map(o=>chip(o[0])).join('')}</div>${btn('Send a gift card','lg')}</div>${ph('Card visual',300)}</div>`,'32px 80px 0')
+  +S.recv('line')+S.faq()+foot()},
+
+{t:'Audience tabs',d:'One hero, two tabs. Everything below (gifts, steps, occasions) follows the active tab. Teams is the default.',
+ h:()=>nav()+sec('Hero · audience tabs',`<div class="w-center"><h1 class="w-h1">Give the gift<br>of good health.</h1></div><div class="w-utabs" style="margin-top:44px"><span class="on">For teams</span><span>For someone</span></div><div class="w-g2">${P.slice(0,2).map(p=>`<div class="w-card ${p.pri?'sel':''}"><span class="w-tag ${p.pri?'pri':''}">${p.tag}</span><h3 class="w-h2">${p.n}</h3><p class="w-p">${p.line}</p>${ph('Visual',120)}<div class="w-row">${p.pri?`<div class="w-step" style="width:170px"><i>−</i><b>25</b><i>+</i></div>`:chip('$100',1)+chip('$250')+chip('$450')}</div><div class="w-row" style="justify-content:space-between"><b style="font-size:24px;font-weight:400">${p.pri?'$7,416':'$1,000'}</b>${btn(p.cta,'lg')}</div></div>`).join('')}</div><p class="w-p w-center" style="margin-top:16px">Tab 2 swaps these for the gift card builder: ring picker, design strip, price.</p>`,'88px 80px 0')
+  +S.why('inline')+S.how()+S.occ()+S.recv()+S.faq('two')+foot()},
+
+{t:'Corporate first',d:'The hero is the team order itself, with quantity and discount bands. Everything else supports it.',
+ h:()=>nav()+sec('Hero · team order',`<div style="display:grid;grid-template-columns:1fr 460px;gap:64px;align-items:center"><div><span class="w-tag pri">Corporate gifting</span><h1 class="w-h1" style="margin-top:14px">Gift your whole team the ring.</h1><p class="w-sub" style="margin:20px 0 28px;max-width:440px">Buy sizing kits in bulk. Everyone sizes at home, then picks their own ring.</p><div class="w-row">${btn('Build your order','lg')}${btn('How it works','o lg')}</div><p class="w-p" style="margin-top:20px">Gifting one person? <span class="w-link">Send a gift card →</span></p></div><div class="w-card" style="padding:28px;gap:18px"><div><span class="w-lbl">Ring</span><span class="w-seg"><span class="on">Ring AIR</span><span>Ring PRO</span></span></div><div><span class="w-lbl">Number of kits</span><div class="w-step" style="width:100%"><i>−</i><b>25</b><i>+</i></div></div><div class="w-bands"><span class="p">1–4</span><span class="p">5–9</span><span class="p">10–24</span><span class="on">25–49</span><span>50–99</span><span>100+</span></div><div class="w-sep"></div><div class="w-row" style="justify-content:space-between"><span class="w-p">25 kits · $297 each · 15% off</span><b style="font-size:26px;font-weight:400">$7,416</b></div>${btn('Buy now','lg full')}</div></div>`,'72px 80px 0')
+  +sec('Other gifts',`<div class="w-g2">${P.slice(1).map(p=>`<div class="w-card" style="flex-direction:row;align-items:center;gap:20px">${ph('Visual',84,'110px')}<div style="flex:1"><span class="w-tag">${p.tag}</span><h3 class="w-h3">${p.n}</h3><p class="w-p">${p.line}</p></div>${btn(p.cta,'o sm')}</div>`).join('')}</div>`,'72px 80px 0')
+  +sec('How kits work',head('How the Gift Kit works','Ships in 24 hours.')+`<div class="w-steps" style="--n:5">${HW.kits.map((s,i)=>`<div><b>0${i+1}</b><span style="font-weight:500">${s[0]}</span><span class="w-p">${s[1]}</span></div>`).join('')}</div>`)
+  +S.occ()+S.why('line')+S.recv('line')+S.faq()+foot()},
+
+{t:'Guided picker',d:'The hero asks two questions and recommends one gift. The full comparison sits underneath for people who skip it.',
+ h:()=>nav()+sec('Hero · guided picker',`<div class="w-center"><h1 class="w-h1 m">Who are you gifting?</h1><p class="w-sub" style="margin-top:14px">Two quick questions. We will point you to the right gift.</p></div><div style="max-width:780px;margin:44px auto 0;display:grid;gap:22px"><div class="w-g2"><div class="w-card sel w-center"><b style="font-size:19px;font-weight:450">My team or clients</b></div><div class="w-card w-center"><b style="font-size:19px;font-weight:450">One person</b></div></div><p class="w-center" style="font-size:18px">Size at home, or choose anything?</p><div class="w-g2"><div class="w-card sel w-center"><b style="font-weight:450">A ring, sized at home</b><span class="w-p">Sizing kits</span></div><div class="w-card w-center"><b style="font-weight:450">A value to spend</b><span class="w-p">Vouchers</span></div></div><div class="w-card sel" style="flex-direction:row;align-items:center;gap:24px">${ph('Visual',100,'160px')}<div style="flex:1"><span class="w-tag pri">We recommend</span><h3 class="w-h2">Sizing kits</h3><p class="w-p">From $262 per kit · up to 25% off</p></div>${btn('Build an order','lg')}</div></div>`,'80px 80px 0')
+  +S.rows()+S.how('three')+S.recv('line')+S.faq()+foot()},
+
+{t:'Minimal list',d:'The quietest. Text-led rows, almost no visuals, the shortest page of the ten. Closest to Apple’s gift cards.',
+ h:()=>nav()+sec('Hero',`<h1 class="w-h1 m">Gifting.</h1><p class="w-sub" style="margin-top:12px;max-width:520px">Give a ring, or the choice of one. For a team, or for one person.</p><div class="w-row" style="margin-top:32px">${chip('All',1)}${chip('For teams')}${chip('For one person')}</div>`,'80px 80px 0')
+  +`<div style="margin-top:-24px">${S.rows().replace(head('Gifting','','left'),'')}</div>`
+  +sec('How it works',`<div class="w-steps" style="--n:3">${HW.gift.map((s,i)=>`<div><b>0${i+1}</b><span style="font-weight:500">${s[0]}</span><span class="w-p">${s[1]}</span></div>`).join('')}</div>`,'72px 80px 0')
+  +sec('Occasions + redeem',`<div style="display:grid;grid-template-columns:1fr 1fr;gap:56px"><div><h3 class="w-h3" style="margin-bottom:14px">Occasions</h3><div class="w-row">${[...OC.c,...OC.i].slice(0,8).map(o=>chip(o[0])).join('')}</div></div><div><h3 class="w-h3">Redeem a code</h3><div class="w-row" style="margin-top:14px"><div class="w-in" style="flex:1">Enter code</div>${btn('Apply','k')}</div></div></div>`,'72px 80px 0')
+  +S.faq('two')+foot()},
+
+{t:'Occasion-led',d:'Starts with the moment, not the product. Pick an occasion and the right gift appears. Products follow below.',
+ h:()=>nav()+sec('Hero · occasions',`<div class="w-center"><h1 class="w-h1 m">What are you celebrating?</h1><p class="w-sub" style="margin-top:14px">Pick the moment. We will show you the right gift.</p></div><div style="margin-top:40px;display:grid;gap:26px"><div><span class="w-tag pri">For the team</span><div class="w-row" style="margin-top:12px">${OC.c.map((o,i)=>chip(o[0],i===3)).join('')}</div></div><div><span class="w-tag">For someone</span><div class="w-row" style="margin-top:12px">${OC.i.map(o=>chip(o[0])).join('')}</div></div><div class="w-card sel" style="flex-direction:row;align-items:center;gap:24px"><div style="flex:1"><span class="w-tag pri">Best for events and conferences</span><h3 class="w-h2">Ring vouchers</h3><p class="w-p">One code per attendee. No sizing, no shipping.</p></div>${btn('Choose a value','lg')}${btn('See sizing kits','o lg')}</div></div>`,'80px 80px 0')
+  +S.cols()+S.how('inline')+S.why()+S.recv('line')+S.faq()+foot()},
+
+{t:'Bento grid',d:'The whole page as one dashboard of tiles. Every section is visible at once, with the three gifts as the largest tiles.',
+ h:()=>nav()+sec('Hero',`<h1 class="w-h1 m" style="max-width:720px">Give the gift of good health.</h1><p class="w-sub" style="margin-top:14px;max-width:480px">One ring, chosen by them.</p>`,'72px 80px 0')
+  +sec('Bento tiles',`<div style="display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:150px;gap:14px">
+   <div class="w-card sel" style="grid-column:span 6;grid-row:span 3"><span class="w-tag pri">${P[0].tag}</span>${ph('Visual',200)}<h3 class="w-h2">${P[0].n}</h3><p class="w-p">${P[0].line}</p><div class="w-row" style="margin-top:auto">${btn(P[0].cta)}<span>${P[0].price}</span></div></div>
+   <div class="w-card" style="grid-column:span 6;grid-row:span 1;flex-direction:row;align-items:center;gap:18px">${ph('Visual',90,'120px')}<div style="flex:1"><span class="w-tag">${P[1].tag}</span><h3 class="w-h3">${P[1].n}</h3><p class="w-p">${P[1].price}</p></div>${btn(P[1].cta,'o sm')}</div>
+   <div class="w-card" style="grid-column:span 6;grid-row:span 1;flex-direction:row;align-items:center;gap:18px">${ph('Visual',90,'120px')}<div style="flex:1"><span class="w-tag">${P[2].tag}</span><h3 class="w-h3">${P[2].n}</h3><p class="w-p">${P[2].price}</p></div>${btn(P[2].cta,'o sm')}</div>
+   <div class="w-card" style="grid-column:span 6;grid-row:span 1"><span class="w-tag">How it works</span><div class="w-steps" style="--n:3">${HW.gift.map((s,i)=>`<div><b style="font-size:20px">0${i+1}</b><span style="font-weight:500;font-size:13px">${s[0]}</span></div>`).join('')}</div></div>
+   <div class="w-card" style="grid-column:span 4;grid-row:span 2"><span class="w-tag">Occasions</span><div class="w-row">${OC.c.slice(0,4).map(o=>chip(o[0])).join('')}</div></div>
+   <div class="w-card" style="grid-column:span 4;grid-row:span 2"><span class="w-tag">They get</span>${R.map(x=>`<div><b style="font-weight:500">${x[0]}</b> <span class="w-p">${x[1]}</span></div>`).join('')}</div>
+   <div class="w-card dash" style="grid-column:span 4;grid-row:span 2"><span class="w-tag">Got a code?</span><div class="w-in">Enter code</div>${btn('Redeem','k')}</div></div>`,'24px 80px 0')
+  +S.faq('two')+foot()},
+
+{t:'Sticky index',d:'A calm editorial page. A fixed index on the left jumps between sections, so a long page never feels long.',
+ h:()=>nav()+sec('Hero',`<h1 class="w-h1 m" style="max-width:760px">Give the gift of good health.</h1><p class="w-sub" style="margin-top:14px;max-width:480px">One ring, chosen by them.</p><div class="w-row" style="margin-top:28px">${btn('Gift your team','lg')}${btn('Gift someone','o lg')}</div>`,'72px 80px 0')
+  +`<div style="display:grid;grid-template-columns:220px 1fr;gap:56px;padding:88px 80px 0"><div class="blk" style="position:relative;align-self:start">${an('Sticky index')}<div style="display:grid;gap:4px;padding-top:6px;font-size:14px">${['Gifts','How it works','Occasions','What they get','FAQ','Redeem a code'].map((x,i)=>`<span style="padding:9px 0;border-bottom:1px solid #eee;${i?'color:#888':'font-weight:500'}">${x}</span>`).join('')}</div></div>
+   <div>${S.rows().replace('padding:96px 80px 0','padding:0').replace(head('Gifting','','left'),`<h2 class="w-h2" style="margin-bottom:28px">Gifts</h2>`)}
+   ${S.how('three').replace('padding:96px 80px 0','padding:72px 0 0').replace('<div class="w-g3">','<div style="display:grid;gap:28px">')}
+   ${S.occ('chips').replace('padding:96px 80px 0','padding:72px 0 0')}
+   ${S.recv('line').replace('padding:96px 80px 0','padding:72px 0 0')}
+   ${S.faq().replace('padding:96px 80px 0','padding:72px 0 0')}</div></div>`+foot()}
+];
+
+/* ---------- build board ---------- */
+const $=s=>document.querySelector(s);
+const board=$('#board');
+const pad=n=>String(n).padStart(2,'0');
+V.forEach((v,i)=>{
+  board.insertAdjacentHTML('beforeend',`<div class="item"><div class="cap"><b><i>${pad(i+1)}</i>${v.t}</b><span>${v.d}</span></div><button type="button" class="pg" data-i="${i}" aria-label="Open ${v.t} full size"><div class="wf">${v.h()}</div></button></div>`);
+});
+function fit(){
+  const bw=Math.max(300,Math.min(440,innerWidth*.78));document.documentElement.style.setProperty('--bw',bw+'px');
+  document.querySelectorAll('.pg').forEach(p=>{const w=p.clientWidth,k=w/1200,wf=p.firstElementChild;wf.style.transform=`scale(${k})`;p.style.height=Math.round(wf.offsetHeight*k)+'px'});
+  if($('#vw').classList.contains('on'))fitViewer();
+}
+$('#prev').onclick=()=>board.scrollBy({left:-(board.clientWidth*.7),behavior:'smooth'});
+$('#next').onclick=()=>board.scrollBy({left:board.clientWidth*.7,behavior:'smooth'});
+/* viewer */
+let cur=0;
+function fitViewer(){const body=$('#vb'),fr=$('#vf'),wf=fr.firstElementChild;const w=Math.min(1200,body.clientWidth-(innerWidth<700?0:0)),k=w/1200;fr.style.width=(1200*k)+'px';wf.style.transform=`scale(${k})`;fr.style.height=Math.round(wf.offsetHeight*k)+'px'}
+function openV(i){cur=(i+V.length)%V.length;const v=V[cur];$('#vt').textContent=pad(cur+1)+' · '+v.t;$('#vs').textContent=v.d;const fr=$('#vf');fr.innerHTML=`<div class="wf">${v.h()}</div>`;$('#vw').classList.add('on');document.body.style.overflow='hidden';$('#vb').scrollTop=0;fitViewer()}
+function closeV(){$('#vw').classList.remove('on');document.body.style.overflow=''}
+board.addEventListener('click',e=>{const p=e.target.closest('.pg');if(p)openV(+p.dataset.i)});
+$('#vx').onclick=closeV;$('#vp').onclick=()=>openV(cur-1);$('#vn').onclick=()=>openV(cur+1);
+addEventListener('keydown',e=>{if(!$('#vw').classList.contains('on'))return;if(e.key==='Escape')closeV();if(e.key==='ArrowLeft')openV(cur-1);if(e.key==='ArrowRight')openV(cur+1)});
+addEventListener('resize',()=>{clearTimeout(window._t);window._t=setTimeout(fit,80)});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+fit();setTimeout(fit,300);
+</script>
+</body></html>

@@ -1,0 +1,1174 @@
+<title>Ultrahuman Gifting Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Barlow+Condensed:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#112BAF; --blue-2:#1539F5; --ink:#000; --muted:rgba(0,0,0,.6); --faint:rgba(0,0,0,.4);
+  --line:#D6D6D6; --soft:#F4F3F0; --soft-2:#EDEBE6; --white:#fff; --green:#0B7A4B;
+  --r:16px; --r-lg:24px; --pill:50px;
+  --display:'Barlow Condensed','Dharma Gothic E','Arial Narrow',sans-serif;
+  --sans:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono',ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--white);font-size:16px;line-height:1.45;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+img,svg{display:block}
+
+/* ---------- type ---------- */
+.eyebrow{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.88px;color:var(--muted)}
+.display{font-family:var(--display);font-weight:300;text-transform:uppercase;letter-spacing:-.03em;line-height:.9}
+.d-xl{font-size:clamp(64px,11.5vw,148px)}
+.d-lg{font-size:clamp(52px,7.4vw,96px)}
+.d-md{font-size:clamp(40px,5vw,64px)}
+.h2{font-size:clamp(28px,3.6vw,44px);font-weight:400;letter-spacing:-.045em;line-height:1.05}
+.h3{font-size:22px;font-weight:500;letter-spacing:-.035em;line-height:1.15}
+.lead{font-size:clamp(17px,1.6vw,20px);color:var(--muted);letter-spacing:-.02em;max-width:560px}
+.mono{font-family:var(--mono);font-size:13px;letter-spacing:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 26px;border-radius:var(--pill);font-weight:500;font-size:15px;letter-spacing:-.015em;transition:.18s;white-space:nowrap}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-2)}
+.btn-secondary{background:#fff;color:#000;border:1px solid var(--line)}.btn-secondary:hover{border-color:#000}
+.btn-dark{background:#000;color:#fff}.btn-dark:hover{background:#222}
+.btn-ghost-w{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28)}.btn-ghost-w:hover{background:rgba(255,255,255,.2)}
+.btn-white{background:#fff;color:#000}.btn-white:hover{background:#eee}
+.btn-sm{height:38px;padding:0 18px;font-size:14px}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.link{font-weight:500;border-bottom:1px solid currentColor;cursor:pointer}
+
+/* ---------- header ---------- */
+.topbar{background:#000;color:#fff;font-size:12px;text-align:center;padding:9px 16px;letter-spacing:-.005em}
+.topbar a{text-decoration:underline;text-underline-offset:2px;margin-left:6px;opacity:.85}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(255,255,255,.88);backdrop-filter:saturate(1.4) blur(16px);-webkit-backdrop-filter:saturate(1.4) blur(16px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-in{max-width:1440px;margin:0 auto;height:64px;padding:0 20px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
+.nav-l{display:flex;align-items:center;gap:22px;font-size:12px}
+.nav-l a,.nav-l button{opacity:.9;font-size:12px;font-weight:400;white-space:nowrap}
+.nav-l a:hover,.nav-l button:hover{opacity:.55}
+.nav-r{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.logo{font-weight:800;font-size:17px;letter-spacing:-.04em;font-style:italic;display:flex;align-items:center;gap:7px}
+.logo i{display:inline-block;width:17px;height:14px;background:#000;clip-path:polygon(0 0,38% 0,50% 45%,62% 0,100% 0,62% 100%,38% 100%)}
+.region{display:flex;align-items:center;gap:6px;font-size:12px;height:36px;padding:0 12px;border-radius:var(--pill);cursor:pointer;position:relative}
+.region:hover{background:var(--soft)}
+.icon-btn{width:36px;height:36px;display:grid;place-items:center;border-radius:50%}
+.icon-btn:hover{background:var(--soft)}
+.menu{position:absolute;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:0 20px 50px rgba(0,0,0,.12);padding:8px;z-index:70;min-width:230px;display:none}
+.menu.open{display:block}
+.menu a,.menu button.mi{display:flex;width:100%;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;font-size:14px;text-align:left}
+.menu a:hover,.menu .mi:hover{background:var(--soft)}
+.menu .mi.on{background:var(--soft);font-weight:500}
+.tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:var(--pill);background:var(--blue);color:#fff}
+.tag-soft{background:var(--soft);color:#000}
+.shopwrap{position:relative}
+.shopwrap .menu{top:30px;left:-12px}
+.region .menu{top:40px;right:0;min-width:260px}
+@media(max-width:980px){.nav-l a{display:none}.nav-in{grid-template-columns:auto 1fr auto}.logo{justify-self:center}}
+@media(max-width:560px){.nav-r .btn{display:none}}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1440px;margin:0 auto;padding:0 12px}
+.pad{padding:0 20px}
+section{position:relative}
+.sec{padding:88px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.sec-head .h2{max-width:700px}
+.card{background:var(--soft);border-radius:var(--r-lg);padding:28px}
+.card-w{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.g3,.g4,.g2{grid-template-columns:1fr}}
+@media(min-width:901px) and (max-width:1180px){.g4{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- hero (black card, like ultrahuman.com) ---------- */
+.hero{background:#000;color:#fff;border-radius:var(--r-lg);margin:12px 0;min-height:min(86vh,760px);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(24px,4vw,56px)}
+.hero .eyebrow{color:rgba(255,255,255,.7)}
+.hero h1{margin:14px 0 22px;max-width:980px;position:relative;z-index:2}
+.hero p.lead{color:rgba(255,255,255,.72);position:relative;z-index:2}
+.hero-cta{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap;position:relative;z-index:2}
+.hero-art{position:absolute;inset:0;z-index:1;pointer-events:none}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+@media(max-width:700px){.hero-art{opacity:.4;transform:translateY(-14%)}.hero{min-height:84vh}}
+
+/* ---------- rings (pure css) ---------- */
+.ring-w{display:inline-block;filter:drop-shadow(0 22px 26px rgba(0,0,0,.35));transform-style:preserve-3d}
+.ring{display:block;width:var(--s);height:var(--s);border-radius:50%;
+  background:conic-gradient(from 200deg,var(--c1),var(--c2) 22%,var(--c3) 45%,var(--c4) 70%,var(--c1));
+  -webkit-mask:radial-gradient(circle,transparent 0 55%,#000 56.5%);mask:radial-gradient(circle,transparent 0 55%,#000 56.5%)}
+.ring-w::after{content:"";position:absolute}
+.art-ring{position:absolute}
+
+/* ---------- vouchers / cards art ---------- */
+.vcard{width:300px;height:188px;border-radius:20px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#1539F5 0%,#112BAF 55%,#0A1A75 100%);box-shadow:0 30px 50px rgba(17,43,175,.35)}
+.vcard .logo{color:#fff;font-size:13px}.vcard .logo i{background:#fff;width:13px;height:11px}
+.vcard .amt{font-family:var(--display);font-weight:300;font-size:64px;line-height:.85;letter-spacing:-.03em}
+.vcard .code{font-family:var(--mono);font-size:11px;opacity:.7}
+.vcard::after{content:"";position:absolute;right:-50px;top:-50px;width:170px;height:170px;border-radius:50%;border:26px solid rgba(255,255,255,.1)}
+.vcard.k{background:linear-gradient(135deg,#2a2a2a,#0b0b0b);box-shadow:0 30px 50px rgba(0,0,0,.35)}
+.vcard.l{background:linear-gradient(135deg,#f3f1ec,#d9d5cb);color:#000;box-shadow:0 30px 50px rgba(0,0,0,.18)}
+.vcard.l .logo{color:#000}.vcard.l .logo i{background:#000}
+
+/* sizer set */
+.sizers{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.sizer{border-radius:50%;border:7px solid #cfcac1;background:transparent;display:grid;place-items:center;font-size:11px;font-weight:600;color:#6f6a60;position:relative}
+.sizer b{position:absolute;bottom:-20px;font-weight:500;font-size:11px;color:rgba(255,255,255,.6)}
+
+/* ---------- path cards ---------- */
+.path{border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;justify-content:space-between;min-height:470px;position:relative;overflow:hidden;transition:transform .25s;cursor:pointer}
+.path:hover{transform:translateY(-4px)}
+.path.dark{background:#000;color:#fff}.path.dark .muted{color:rgba(255,255,255,.65)}
+.path.soft{background:var(--soft)}
+.path.blue{background:var(--blue);color:#fff}.path.blue .muted{color:rgba(255,255,255,.72)}
+.path .art{position:relative;height:190px;margin:12px 0}
+.path .meta{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:12px}
+.grouplabel{display:flex;align-items:center;gap:10px;margin:0 0 12px 4px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:5px 11px;border-radius:var(--pill);background:rgba(255,255,255,.14)}
+.path.soft .chip{background:#fff}
+
+/* ---------- tabs / segmented ---------- */
+.seg{display:inline-flex;background:var(--soft);border-radius:var(--pill);padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{height:38px;padding:0 20px;border-radius:var(--pill);font-size:14px;font-weight:500;color:var(--muted);transition:.15s}
+.seg button.on{background:#000;color:#fff}
+
+/* ---------- steps ---------- */
+.step{background:var(--soft);border-radius:var(--r-lg);padding:26px;min-height:210px;display:flex;flex-direction:column;justify-content:space-between}
+.step .n{font-family:var(--display);font-size:56px;font-weight:300;line-height:.9;color:var(--blue)}
+.step p{color:var(--muted);margin-top:8px;font-size:15px}
+.step h4{font-size:19px;font-weight:500;letter-spacing:-.03em;line-height:1.15}
+
+/* ---------- occasions ---------- */
+.occ{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:22px 24px;background:#fff;border:1px solid var(--line);border-radius:var(--r);transition:.18s;cursor:pointer}
+.occ:hover{border-color:#000;transform:translateY(-2px)}
+.occ h4{font-size:19px;font-weight:500;letter-spacing:-.03em}
+.occ p{color:var(--muted);font-size:14px;margin-top:3px}
+.occ .arrow{flex:none;width:36px;height:36px;border-radius:50%;background:var(--soft);display:grid;place-items:center}
+.occ:hover .arrow{background:var(--blue);color:#fff}
+
+/* ---------- faq ---------- */
+details.faq{border-top:1px solid var(--line)}
+details.faq:last-child{border-bottom:1px solid var(--line)}
+details.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 4px;font-size:19px;letter-spacing:-.03em;font-weight:400}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--soft);position:relative}
+details.faq summary i::before,details.faq summary i::after{content:"";position:absolute;left:9px;top:14px;width:12px;height:1.5px;background:#000;transition:.2s}
+details.faq summary i::after{transform:rotate(90deg)}
+details.faq[open] summary i::after{transform:rotate(0)}
+details.faq .a{padding:0 60px 24px 4px;color:var(--muted);max-width:760px}
+
+/* ---------- detail page layout ---------- */
+.crumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);padding:22px 0 8px}
+.crumb a:hover{color:#000}
+.detail{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:48px;align-items:start;padding:12px 0 90px}
+.detail .main>section{margin-top:72px}
+.detail .main>section:first-child{margin-top:0}
+.sticky{position:sticky;top:84px}
+@media(max-width:1020px){.detail{grid-template-columns:1fr;gap:28px}.sticky{position:static}.detail .main>section{margin-top:56px}}
+.visual{background:#000;border-radius:var(--r-lg);height:420px;margin-top:30px;position:relative;overflow:hidden;color:#fff}
+.visual .cap{position:absolute;left:24px;bottom:20px;font-size:12px;color:rgba(255,255,255,.6)}
+
+/* ---------- configurator panel ---------- */
+.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;box-shadow:0 1px 0 rgba(0,0,0,.02),0 24px 60px rgba(0,0,0,.06)}
+.panel .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.panel hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+.lbl{font-size:12px;font-weight:500;color:var(--muted);margin-bottom:8px;display:block;letter-spacing:0}
+.ringpick{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ringpick button{border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;gap:12px;align-items:center;text-align:left;transition:.15s;background:#fff}
+.ringpick button:hover{border-color:#000}
+.ringpick button.on{border:1.5px solid var(--blue);box-shadow:0 0 0 3px rgba(17,43,175,.12)}
+.ringpick .th{width:52px;height:52px;border-radius:12px;background:#000;display:grid;place-items:center;flex:none;position:relative}
+.ringpick b{display:block;font-weight:500;font-size:15px;letter-spacing:-.02em}
+.ringpick span.p{font-size:13px;color:var(--muted)}
+.single{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:var(--r)}
+.single .th{width:52px;height:52px;border-radius:12px;background:#000;display:grid;place-items:center}
+.stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:var(--pill);height:52px;overflow:hidden}
+.stepper button{width:56px;height:100%;font-size:22px;color:#000;transition:.15s}
+.stepper button:hover{background:var(--soft)}
+.stepper input{flex:1;min-width:0;text-align:center;border:0;outline:0;font-size:20px;font-weight:500;background:transparent;-moz-appearance:textfield;letter-spacing:-.03em}
+.stepper input::-webkit-inner-spin-button{-webkit-appearance:none}
+.qchips{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.qchips button{height:32px;padding:0 14px;border-radius:var(--pill);border:1px solid var(--line);font-size:13px;font-weight:500}
+.qchips button:hover{border-color:#000}
+.qchips button.on{background:#000;color:#fff;border-color:#000}
+.price-big{font-size:42px;font-weight:400;letter-spacing:-.06em;line-height:1}
+.strike{text-decoration:line-through;color:var(--faint)}
+.save{display:inline-flex;align-items:center;gap:6px;background:#E5F5EC;color:var(--green);font-size:12px;font-weight:600;padding:4px 10px;border-radius:var(--pill)}
+.nudge{background:var(--soft);border-radius:12px;padding:11px 14px;font-size:13px;color:var(--muted);margin-top:12px}
+.nudge b{color:#000;font-weight:500}
+.fine{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.4}
+.bands{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bands button{height:54px;border:1px solid var(--line);border-radius:14px;font-size:16px;font-weight:500;letter-spacing:-.03em;transition:.15s;background:#fff}
+.bands button:hover{border-color:#000}
+.bands button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+/* ---------- tables ---------- */
+.tbl{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.tbl .tr{display:grid;grid-template-columns:1.2fr 1fr 1.2fr 1.2fr;padding:18px 24px;border-top:1px solid var(--line);align-items:center;font-size:15px;transition:.2s}
+.tbl .tr:first-child{border-top:0}
+.tbl .th{font-size:11px;text-transform:uppercase;letter-spacing:.88px;color:var(--muted);background:var(--soft);font-weight:500}
+.tbl .tr.on{background:var(--blue);color:#fff}
+.tbl .tr.on .muted{color:rgba(255,255,255,.75)}
+.pct{font-family:var(--display);font-size:34px;font-weight:300;line-height:1}
+@media(max-width:560px){.tbl .tr{grid-template-columns:1fr 1fr 1fr;padding:14px 16px}.tbl .tr>:nth-child(3){display:none}}
+
+/* ---------- lists ---------- */
+.ticks{list-style:none;display:grid;gap:12px}
+.ticks li{display:flex;gap:12px;align-items:flex-start;font-size:16px}
+.ticks li svg{flex:none;margin-top:3px}
+.ticks.no li{color:var(--muted)}
+.cov{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.cov{grid-template-columns:1fr}}
+.kitlist{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:800px){.kitlist{grid-template-columns:1fr}}
+.kit{background:var(--soft);border-radius:var(--r-lg);padding:24px;min-height:200px;display:flex;flex-direction:column;justify-content:space-between}
+.kit .ic{width:48px;height:48px;border-radius:14px;background:#fff;display:grid;place-items:center}
+
+/* ---------- forms ---------- */
+.field{display:grid;gap:6px;margin-bottom:14px}
+.field label{font-size:12px;font-weight:500;color:var(--muted)}
+.inp{height:52px;border:1px solid var(--line);border-radius:14px;padding:0 16px;outline:0;background:#fff;transition:.15s;width:100%;font-size:16px}
+.inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(17,43,175,.12)}
+textarea.inp{height:auto;min-height:104px;padding:14px 16px;resize:vertical;line-height:1.4}
+.inp.err{border-color:#C8261B;box-shadow:0 0 0 3px rgba(200,38,27,.1)}
+.errmsg{font-size:12px;color:#C8261B;display:none}
+.field.bad .errmsg{display:block}
+.field.bad .inp{border-color:#C8261B}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.cnt{font-size:12px;color:var(--muted);text-align:right}
+.radio{display:flex;gap:8px;flex-wrap:wrap}
+.radio button{height:46px;padding:0 20px;border:1px solid var(--line);border-radius:var(--pill);font-weight:500;font-size:14px}
+.radio button.on{border-color:var(--blue);background:rgba(17,43,175,.06);color:var(--blue)}
+.fstep{display:flex;gap:16px;margin-bottom:34px}
+.fstep .num{flex:none;width:34px;height:34px;border-radius:50%;background:#000;color:#fff;display:grid;place-items:center;font-size:14px;font-weight:500}
+.fstep .body{flex:1;min-width:0}
+.fstep h3{margin:4px 0 16px}
+
+/* ---------- gift email preview ---------- */
+.email{background:var(--soft);border-radius:var(--r-lg);padding:14px}
+.email .bar{display:flex;gap:6px;padding:4px 6px 12px}.email .bar i{width:9px;height:9px;border-radius:50%;background:#d0cdc6}
+.email .body{background:#000;color:#fff;border-radius:18px;padding:26px 24px;position:relative;overflow:hidden;min-height:340px;display:flex;flex-direction:column}
+.email .body .to{font-family:var(--display);font-weight:300;font-size:46px;line-height:.9;text-transform:uppercase;letter-spacing:-.03em;margin:10px 0 12px;position:relative;z-index:2}
+.email .body .msg{font-size:14px;color:rgba(255,255,255,.78);position:relative;z-index:2;font-style:italic;max-width:78%;min-height:20px}
+.email .body .codebox{margin-top:auto;position:relative;z-index:2;background:rgba(255,255,255,.1);border:1px dashed rgba(255,255,255,.35);border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
+.email .rw{position:absolute;right:-30px;top:20px;z-index:1}
+
+/* ---------- summary lines ---------- */
+.sum .l{display:flex;justify-content:space-between;gap:12px;padding:8px 0;font-size:15px}
+.sum .l.t{border-top:1px solid var(--line);margin-top:8px;padding-top:16px;font-size:20px;font-weight:500;letter-spacing:-.03em}
+.sum .l span:first-child{color:var(--muted)}.sum .l.t span:first-child{color:#000}
+
+/* ---------- mobile sticky pay bar ---------- */
+.mbar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));gap:14px;align-items:center;justify-content:space-between}
+.mbar .s{font-size:12px;color:var(--muted);line-height:1.2}.mbar .s b{display:block;font-size:19px;color:#000;font-weight:500;letter-spacing:-.04em}
+@media(max-width:1020px){.mbar.has{display:flex}body.hasbar{padding-bottom:84px}}
+
+/* ---------- success ---------- */
+.okmark{width:64px;height:64px;border-radius:50%;background:var(--blue);display:grid;place-items:center;color:#fff}
+.codes{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.codes .cr{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-top:1px solid var(--line)}
+.codes .cr:first-child{border-top:0}
+.codes .cr .idx{color:var(--faint);width:28px;font-size:13px}
+.codes .cr .cd{flex:1;font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:.02em}
+.codes .scroll{max-height:340px;overflow:auto}
+.copy{height:32px;padding:0 14px;border-radius:var(--pill);border:1px solid var(--line);font-size:13px;font-weight:500}
+.copy:hover{border-color:#000}
+.copy.done{background:#E5F5EC;color:var(--green);border-color:transparent}
+details.dev{margin-top:12px;border:1px dashed #b5b0a4;border-radius:var(--r);background:#FBFAF6}
+details.dev summary{cursor:pointer;padding:14px 18px;font-size:13px;font-weight:500;list-style:none;display:flex;justify-content:space-between}
+details.dev summary::-webkit-details-marker{display:none}
+details.dev table{width:calc(100% - 36px);margin:0 18px 16px;border-collapse:collapse;font-size:13px}
+details.dev td{padding:7px 0;border-top:1px solid #e6e1d4;vertical-align:top}
+details.dev td:first-child{color:var(--muted);width:42%;padding-right:12px}
+
+/* ---------- redeem ---------- */
+.redeem{max-width:560px;margin:60px auto 100px}
+.codein{display:flex;gap:8px}
+.res{margin-top:22px;border-radius:var(--r-lg);padding:24px;background:var(--soft)}
+
+/* ---------- footer ---------- */
+footer{background:#000;color:#fff;border-radius:var(--r-lg);margin:12px 0;padding:56px clamp(24px,4vw,56px) 36px}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}
+footer a{display:block;color:rgba(255,255,255,.65);font-size:14px;padding:4px 0}footer a:hover{color:#fff}
+footer .logo{color:#fff;font-size:20px}footer .logo i{background:#fff}
+@media(max-width:800px){footer .cols{grid-template-columns:1fr 1fr}}
+
+/* ---------- proto control ---------- */
+.proto-btn{position:fixed;left:16px;bottom:16px;z-index:90;height:44px;padding:0 18px 0 14px;border-radius:var(--pill);background:#111;color:#fff;display:flex;gap:8px;align-items:center;font-size:13px;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.proto-btn i{width:8px;height:8px;border-radius:50%;background:#5CF0A0;box-shadow:0 0 0 3px rgba(92,240,160,.25)}
+body.hasbar .proto-btn{bottom:96px}
+@media(min-width:1021px){body.hasbar .proto-btn{bottom:16px}}
+.proto{position:fixed;left:16px;bottom:70px;z-index:95;width:min(420px,calc(100vw - 32px));max-height:min(78vh,720px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.25);padding:20px;display:none}
+.proto.open{display:block}
+body.hasbar .proto{bottom:150px}
+@media(min-width:1021px){body.hasbar .proto{bottom:70px}}
+.proto h5{font-size:11px;text-transform:uppercase;letter-spacing:.88px;color:var(--muted);font-weight:500;margin:18px 0 8px}
+.proto h5:first-child{margin-top:0}
+.proto .jumps{display:flex;flex-wrap:wrap;gap:6px}
+.proto .jumps a{font-size:12px;font-weight:500;padding:6px 12px;border-radius:var(--pill);background:var(--soft)}
+.proto .jumps a:hover{background:#000;color:#fff}
+.proto ol,.proto ul{padding-left:18px;font-size:13px;color:#333;display:grid;gap:7px;line-height:1.4}
+.proto select{height:38px;border:1px solid var(--line);border-radius:10px;padding:0 10px;width:100%;background:#fff}
+.q{background:#FFF7E0;border-radius:10px;padding:8px 10px;list-style:none;margin-left:-18px}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,40px);background:#000;color:#fff;padding:12px 20px;border-radius:var(--pill);font-size:14px;z-index:200;opacity:0;transition:.3s;pointer-events:none;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+body.hasbar .toast{bottom:100px}
+
+.fade{animation:fade .45s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hide{display:none!important}
+</style>
+
+<div class="topbar">New — Ultrahuman Gifting for teams, clients and the people you love.<a href="#">Explore</a></div>
+<header class="nav">
+  <div class="nav-in">
+    <div class="nav-l">
+      <button class="icon-btn" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#000" stroke-width="1.5"><path d="M3 6h14M3 14h14"/></svg></button>
+      <a href="#">Ultrahuman Ring</a><a href="#">Advanced Markers</a><a href="#">Performance Lab</a>
+      <div class="shopwrap">
+        <button id="shopBtn" onclick="toggleMenu('shopMenu',event)">Shop ▾</button>
+        <div class="menu" id="shopMenu">
+          <a href="#" onclick="closeMenus()">Ring AIR</a>
+          <a href="#" onclick="closeMenus()">Ring PRO</a>
+          <a href="#" onclick="closeMenus()">Accessories</a>
+          <a href="#gifting" onclick="closeMenus()" style="background:var(--soft)"><span style="font-weight:500">Gifting</span><span class="tag">New</span></a>
+        </div>
+      </div>
+    </div>
+    <a href="#" class="logo"><i></i>ULTRAHUMAN</a>
+    <div class="nav-r">
+      <div class="region" id="regionBtn" onclick="toggleMenu('regionMenu',event)"><span id="regionLabel"></span><span style="font-size:10px">▾</span>
+        <div class="menu" id="regionMenu" onclick="event.stopPropagation()"></div>
+      </div>
+      <button class="icon-btn" aria-label="Bag"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#000" stroke-width="1.5"><path d="M4 6h12l-1 11H5L4 6z"/><path d="M7 6V5a3 3 0 016 0v1"/></svg></button>
+      <a class="btn btn-primary btn-sm" href="#gifting">Gift a Ring</a>
+    </div>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<div class="mbar" id="mbar"></div>
+<button class="proto-btn" onclick="toggleProto()"><i></i>Prototype</button>
+<div class="proto" id="proto"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================================
+   DATA — all numbers are ILLUSTRATIVE placeholders for the prototype
+   ===================================================================== */
+const STORES = {
+  US:{code:'USD',loc:'en-US',flag:'🇺🇸',label:'US',name:'United States',rings:{AIR:349,PRO:449},bands:[50,100,150,200,250,300,450],tax:'VAT/GST/Tax ID (optional)',cities:'Sales tax calculated by Shopify'},
+  AE:{code:'AED',loc:'en-AE',flag:'🇦🇪',label:'UAE',name:'United Arab Emirates',rings:{AIR:1299,PRO:1699},bands:[200,400,550,750,900,1100,1650],tax:'TRN (optional)',cities:'VAT included'},
+  IN:{code:'INR',loc:'en-IN',flag:'🇮🇳',label:'IN',name:'India',rings:{AIR:28499},bands:[5000,10000,15000,20000,25000,30000,45000],tax:'GSTIN (optional)',cities:'GST included'},
+  EU:{code:'EUR',loc:'de-DE',flag:'🇪🇺',label:'EU',name:'Europe',rings:{AIR:349,PRO:449},bands:[50,100,150,200,250,300,450],tax:'VAT ID (optional)',cities:'VAT included'},
+  GB:{code:'GBP',loc:'en-GB',flag:'🇬🇧',label:'UK',name:'United Kingdom',rings:{AIR:299,PRO:399},bands:[40,80,120,160,200,240,360],tax:'VAT number (optional)',cities:'VAT included'}
+};
+const RINGS = {
+  AIR:{name:'Ring AIR',tag:'Light. Everyday.',fin:['titanium','black','gold','silver']},
+  PRO:{name:'Ring PRO',tag:'Most advanced.',fin:['black','titanium','rose','gold']}
+};
+/* Discount bands for gift sizing kits — "Bands TBD" in the brief */
+const GSK_BANDS = [
+  {min:1,max:4,pct:0},{min:5,max:9,pct:5},{min:10,max:24,pct:10},
+  {min:25,max:49,pct:15},{min:50,max:99,pct:20},{min:100,max:Infinity,pct:25}
+];
+const FIN = {
+  titanium:['#ece9e2','#8f8c85','#faf8f2','#6d6a64'],
+  black:['#5a5a5a','#0b0b0b','#7b7b7b','#151515'],
+  gold:['#f4e0ac','#a88541','#fdf0cc','#8a6c2d'],
+  silver:['#f5f5f5','#9b9b9b','#ffffff','#7a7a7a'],
+  rose:['#f6d6ca','#b8836f','#fde9e0','#98685a']
+};
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const S = {
+  store:'US', ring:'AIR',
+  gsk:{qty:25}, v:{band:null, qty:10},
+  gc:{gName:'',gEmail:'',rName:'',rEmail:'',msg:'',when:'now',date:''},
+  hiw:'gsk', occ:'corp',
+  cart:null, order:null, issued:{}
+};
+const st = () => STORES[S.store];
+const rings = () => Object.keys(st().rings);
+const ensureRing = () => { if(!st().rings[S.ring]) S.ring = rings()[0]; };
+ensureRing();
+S.v.band = st().bands[1];
+
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+const $ = s => document.querySelector(s);
+const fmt = n => new Intl.NumberFormat(st().loc,{style:'currency',currency:st().code,maximumFractionDigits:0}).format(Math.round(n));
+const fmtD = d => new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+const addM = (d,m) => { const x=new Date(d); x.setMonth(x.getMonth()+m); return x; };
+const band = q => GSK_BANDS.find(b=>q>=b.min&&q<=b.max);
+const nextBand = q => GSK_BANDS.find(b=>b.min>q);
+const ringPrice = () => st().rings[S.ring];
+const unit = q => ringPrice()*(1-band(q).pct/100);
+const CH='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const rnd = n => Array.from({length:n},()=>CH[Math.floor(Math.random()*CH.length)]).join('');
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toast = m => { const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2200); };
+const arrow = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+const tick = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#112BAF"/><path d="M5.2 9.2l2.4 2.4 5-5.2" stroke="#fff" stroke-width="1.6" fill="none"/></svg>';
+const cross = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#E3E1DB"/><path d="M6 6l6 6M12 6l-6 6" stroke="#666" stroke-width="1.5"/></svg>';
+
+function ring(size=160, fin='titanium', style=''){
+  const c=FIN[fin];
+  return `<span class="ring-w" style="${style}"><span class="ring" style="--s:${size}px;--c1:${c[0]};--c2:${c[1]};--c3:${c[2]};--c4:${c[3]}"></span></span>`;
+}
+const wordmark = '<span class="logo"><i></i>ULTRAHUMAN</span>';
+
+function faq(items){
+  return `<div>${items.map(([q,a])=>`<details class="faq"><summary>${q}<i></i></summary><div class="a">${a}</div></details>`).join('')}</div>`;
+}
+function ringPicker(){
+  const ks=rings();
+  if(ks.length===1){
+    const k=ks[0];
+    return `<div><span class="lbl">Ring</span><div class="single"><div class="th">${ring(34,RINGS[k].fin[0])}</div><div><b style="font-weight:500">${RINGS[k].name}</b><div class="small muted">${fmt(st().rings[k])} · the only ring sold on the ${st().name} store</div></div></div></div>`;
+  }
+  return `<div><span class="lbl">Ring</span><div class="ringpick">${ks.map(k=>`
+    <button class="${S.ring===k?'on':''}" onclick="setRing('${k}')"><div class="th">${ring(34,RINGS[k].fin[0])}</div><div><b>${RINGS[k].name}</b><span class="p">${fmt(st().rings[k])}</span></div></button>`).join('')}</div></div>`;
+}
+function crumb(label){ return `<div class="crumb"><a href="#gifting">Gifting</a><span>/</span><span style="color:#000">${label}</span></div>`; }
+
+/* =====================================================================
+   LANDING
+   ===================================================================== */
+const HIW = {
+  gsk:{title:'Gift sizing kits',steps:[
+    ['Pick the ring and the number of kits','Choose AIR or PRO. The more kits, the bigger the volume discount.'],
+    ['Pay once. Kits ship to you','Each kit carries a purchase code. We email every code to you as well.'],
+    ['They size themselves at home','Sizers and instructions are in the kit. No guessing, no returns for wrong size.'],
+    ['They redeem the code','On the ring purchase flow, at the discounted price. They choose the finish.']]},
+  voucher:{title:'Ring vouchers',steps:[
+    ['Pick a value and a quantity','Seven value bands, up to 50 codes per order.'],
+    ['Pay once. Get all the codes','Codes appear instantly on the success page and in your email.'],
+    ['Share or download','Copy a prefilled message or download every code as a CSV.'],
+    ['They apply it at checkout','Like a gift card. Balance stays on the code. One code per person.']]},
+  gc:{title:'Gift card',steps:[
+    ['Choose AIR or PRO','You pay the full price of the ring. No bands, no maths.'],
+    ['Add your details and theirs','Your name and email, their name and email, and an optional message.'],
+    ['We email them a code','Now, or on a date you choose, with a link to the redemption page.'],
+    ['They choose size and finish','A sizing kit ships first if they need one.']]}
+};
+const OCC = {
+  corp:[
+    ['Team milestones','A launch shipped, a round closed, a year done well.','corporate'],
+    ['Client and partner gifts','Let them choose. You get the thanks.','vouchers'],
+    ['Leadership gifts','For the people who set the pace.','corporate'],
+    ['Events and conferences','One code per attendee, no sizing, no shipping.','vouchers'],
+    ['Rewards and incentives','A target hit, a quarter closed.','vouchers'],
+    ['Festive season','Diwali, Eid, Christmas. One order for the whole list.','corporate']],
+  ind:[
+    ['Birthdays','The ring, their size, their finish.'],
+    ['Anniversaries','Something you both wear.'],
+    ['Festive season','Diwali, Eid, Christmas.'],
+    ['New beginnings','A new job, a new city, a new routine.'],
+    ['Parents','For the person who never tracks their own health.'],
+    ['Graduation','The first thing they buy themselves, bought for them.']]
+};
+const routeLabel = {corporate:'Sizing kits',vouchers:'Vouchers'};
+const GEN_FAQ = ()=>[
+  ['Which regions can I gift in?',`Gifting runs on the India, UAE, US, UK and EU stores. Codes only redeem on the store they were issued on — a code bought on the ${st().name} store works on the ${st().name} store.`],
+  ['Do codes expire?','Sizing-kit codes are valid for 6 months from purchase. Vouchers and gift cards are valid for 12 months from the day they are created.'],
+  ['What happens to unused balance?','Ring vouchers keep their balance. Partial redemption is allowed and the remainder stays on the code. A gift card covers one ring, so there is no balance to track.'],
+  ['What about returns?','Standard Ultrahuman returns apply to the ring. For gift cards, refunds go back to the person who paid, not the recipient.'],
+  ['Can one code be shared between people?','No. Every code is for one person. Vouchers bind to the first email that redeems them, and sizing-kit codes can be used once.']
+];
+
+function ringTrio(){
+  return `
+  <div class="art-ring" style="right:6%;top:6%;transform:rotate(-24deg) scaleY(.92)">${ring(clamp(260,520),'titanium')}</div>
+  <div class="art-ring" style="right:26%;top:30%;transform:rotate(18deg) scaleY(.9)">${ring(clamp(180,360),'black')}</div>
+  <div class="art-ring" style="right:2%;top:50%;transform:rotate(-8deg) scaleY(.94)">${ring(clamp(150,300),'gold')}</div>`;
+}
+function clamp(a,b){ const w=window.innerWidth; return Math.round(Math.max(a,Math.min(b,w*0.3))); }
+
+function viewLanding(){
+  const s=st(), minRing=Math.min(...Object.values(s.rings));
+  const hw=HIW[S.hiw];
+  return `<div class="wrap fade">
+  <!-- 1. HERO -->
+  <section class="hero">
+    <div class="hero-art">
+      <div class="glow" style="width:520px;height:520px;background:#1539F5;right:-80px;top:-120px;opacity:.5"></div>
+      <div class="glow" style="width:340px;height:340px;background:#8a6c2d;right:30%;bottom:-120px;opacity:.28"></div>
+      ${ringTrio()}
+    </div>
+    <span class="eyebrow">Ultrahuman Gifting</span>
+    <h1 class="display d-xl">Give the gift<br>of good health.</h1>
+    <p class="lead">One ring, chosen by them. For a team of five hundred or one person you love — you pick how, they pick the size and the finish.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#corporate">Gift your team ${arrow}</a>
+      <a class="btn btn-ghost-w" href="#gift-card">Gift someone</a>
+      <a class="btn btn-ghost-w" href="#redeem">Redeem a code</a>
+    </div>
+  </section>
+
+  <!-- 2. WHY -->
+  <section class="sec pad" style="padding-bottom:40px">
+    <div class="sec-head"><div><span class="eyebrow">Why gift Ultrahuman</span><h2 class="h2" style="margin-top:12px">A gift that keeps giving back.</h2></div></div>
+    <div class="grid g3">
+      ${[
+        ['The ring','A titanium smart ring that quietly tracks sleep, recovery and movement. Nothing to configure, nothing to remember.',ring(120,'titanium')],
+        ['Good health, every morning','Better sleep and recovery show up daily, not just on the day it is unwrapped.',ring(120,'rose')],
+        ['They choose','Size, finish and model are theirs. You never guess. They never return.',ring(120,'gold')]
+      ].map(([t,d,r],i)=>`<div class="card" style="min-height:340px;display:flex;flex-direction:column;justify-content:space-between;${i==1?'background:#000;color:#fff':''}">
+        <div style="display:grid;place-items:center;flex:1;padding:10px 0">${r}</div>
+        <div><h3 class="h3">${t}</h3><p class="${i==1?'':'muted'}" style="margin-top:8px;${i==1?'color:rgba(255,255,255,.7)':''}">${d}</p></div></div>`).join('')}
+    </div>
+  </section>
+
+  <!-- 3. PICK YOUR PATH -->
+  <section class="sec pad" id="paths">
+    <div class="sec-head"><div><span class="eyebrow">Pick your path</span><h2 class="h2" style="margin-top:12px">Three ways to give. One ring.</h2></div>
+      <p class="muted" style="max-width:340px;font-size:15px">Buying for a team? Start with sizing kits or vouchers. Buying for one person? Send a gift card.</p></div>
+    <div class="grid" style="grid-template-columns:2fr 1fr;gap:12px" id="pathgrid">
+      <div>
+        <div class="grouplabel"><span class="tag">Corporate</span><span class="small muted">Teams, clients, events</span></div>
+        <div class="grid g2">
+          <div class="path dark" onclick="location.hash='#corporate'">
+            <div><div style="display:flex;justify-content:space-between;align-items:center"><span class="chip">Most chosen for teams</span><span class="chip">Up to 25% off</span></div>
+              <h3 class="display d-md" style="margin-top:22px">Gift sizing kits</h3>
+              <p class="muted" style="margin-top:10px">Buy kits in bulk at a volume discount. Each person sizes themselves, then redeems a code for their ring.</p></div>
+            <div class="art"><div class="sizers" style="position:absolute;left:0;bottom:22px">${[34,40,46,52,58,64].map((z,i)=>`<span class="sizer" style="width:${z}px;height:${z}px;border-color:${['#5b5750','#6d685f','#807a70','#948e82','#a9a296','#bdb6a8'][i]}"><b>${i+6}</b></span>`).join('')}</div>
+              <div class="art-ring" style="right:0;top:-10px;transform:rotate(-20deg) scaleY(.9)">${ring(150,'titanium')}</div></div>
+            <div class="meta"><div><div class="eyebrow" style="color:rgba(255,255,255,.55)">From</div><div class="h3">${fmt(unit(100))} <span class="small muted" style="font-weight:400">per kit at 100+</span></div></div><span class="btn btn-white btn-sm">Build an order ${arrow}</span></div>
+          </div>
+          <div class="path soft" onclick="location.hash='#vouchers'">
+            <div><div style="display:flex;justify-content:space-between"><span class="chip">No sizing · No shipping</span></div>
+              <h3 class="display d-md" style="margin-top:22px">Ring vouchers</h3>
+              <p class="muted" style="margin-top:10px">Pick a value, get the codes, pass them on. Recipients apply a code at checkout like a gift card.</p></div>
+            <div class="art"><div class="vcard" style="position:absolute;left:30px;top:30px;transform:rotate(-8deg) scale(.62);transform-origin:left top"><div class="logo"><i></i>ULTRAHUMAN</div><div class="amt">${fmt(s.bands[3])}</div><div class="code">UHV-7K2P-9QXM</div></div>
+              <div class="vcard k" style="position:absolute;left:110px;top:10px;transform:rotate(6deg) scale(.62);transform-origin:left top"><div class="logo"><i></i>ULTRAHUMAN</div><div class="amt">${fmt(s.bands[1])}</div><div class="code">UHV-3WNA-4RTE</div></div></div>
+            <div class="meta"><div><div class="eyebrow">From</div><div class="h3">${fmt(s.bands[0])} <span class="small muted" style="font-weight:400">× up to 50</span></div></div><span class="btn btn-dark btn-sm">Choose a value ${arrow}</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="grouplabel"><span class="tag tag-soft">Individual</span><span class="small muted">One person, one ring</span></div>
+        <div class="path blue" onclick="location.hash='#gift-card'">
+          <div><div style="display:flex;justify-content:space-between"><span class="chip">Sent by email</span></div>
+            <h3 class="display d-md" style="margin-top:22px">Gift card</h3>
+            <p class="muted" style="margin-top:10px">Pay the full price of the ring. They get an email, then choose size and finish.</p></div>
+          <div class="art"><div class="art-ring" style="left:10%;top:-6px;transform:rotate(-14deg) scaleY(.9)">${ring(180,'gold')}</div></div>
+          <div class="meta"><div><div class="eyebrow" style="color:rgba(255,255,255,.6)">${rings().length>1?'From':'Price'}</div><div class="h3">${fmt(minRing)}</div></div><span class="btn btn-white btn-sm">Send a gift ${arrow}</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. HOW IT WORKS (separate per product) -->
+  <section class="sec pad" style="padding-top:40px">
+    <div class="sec-head"><div><span class="eyebrow">How it works</span><h2 class="h2" style="margin-top:12px">Simple for you. Easy for them.</h2></div>
+      <div class="seg" id="hiwseg">${Object.entries(HIW).map(([k,v])=>`<button class="${S.hiw===k?'on':''}" onclick="S.hiw='${k}';render(true)">${v.title}</button>`).join('')}</div></div>
+    <div class="grid g4">${hw.steps.map((x,i)=>`<div class="step"><span class="n">0${i+1}</span><div><h4>${x[0]}</h4><p>${x[1]}</p></div></div>`).join('')}</div>
+  </section>
+
+  <!-- 5. OCCASIONS -->
+  <section class="sec pad" style="padding-top:40px">
+    <div class="sec-head"><div><span class="eyebrow">Occasions</span><h2 class="h2" style="margin-top:12px">For every reason to say thank you.</h2></div>
+      <div class="seg">${[['corp','Corporate'],['ind','Individual']].map(([k,l])=>`<button class="${S.occ===k?'on':''}" onclick="S.occ='${k}';render(true)">${l}</button>`).join('')}</div></div>
+    <div class="grid g3">${OCC[S.occ].map(o=>{
+      const dest = S.occ==='corp'?o[2]:'gift-card';
+      return `<div class="occ" onclick="location.hash='#${dest}'"><div><h4>${o[0]}</h4><p>${o[1]}</p>${S.occ==='corp'?`<span class="tag tag-soft" style="margin-top:12px">${routeLabel[o[2]]}</span>`:''}</div><span class="arrow">${arrow}</span></div>`;}).join('')}</div>
+  </section>
+
+  <!-- 6. WHAT THE RECIPIENT GETS -->
+  <section class="sec pad" style="padding-top:40px">
+    <div class="sec-head"><div><span class="eyebrow">What the recipient gets</span><h2 class="h2" style="margin-top:12px">Ring. App. Membership.</h2></div></div>
+    <div class="grid g3">
+      <div class="card" style="background:#000;color:#fff;min-height:420px;position:relative;overflow:hidden"><div class="art-ring" style="right:-30px;top:10px;transform:rotate(-24deg) scaleY(.9)">${ring(300,'titanium')}</div><div style="position:absolute;left:28px;bottom:28px;right:28px"><span class="eyebrow" style="color:rgba(255,255,255,.6)">01 · The ring</span><h3 class="h3" style="margin-top:8px">${RINGS[S.ring].name}, in the size and finish they choose.</h3></div></div>
+      <div class="card" style="min-height:420px;position:relative;overflow:hidden">
+        <div style="position:absolute;left:50%;top:34px;transform:translateX(-50%);width:200px;height:290px;border-radius:30px;background:#000;padding:12px;box-shadow:0 30px 50px rgba(0,0,0,.2)"><div style="background:#111;border-radius:20px;height:100%;padding:14px;color:#fff;display:flex;flex-direction:column;justify-content:space-between"><div class="small" style="opacity:.6">Today</div><div><div class="display" style="font-size:64px;color:#5CF0A0">86</div><div class="small" style="opacity:.7">Recovery score</div></div><div style="display:flex;gap:4px;align-items:flex-end;height:46px">${[40,60,35,80,55,70,90].map(h=>`<i style="flex:1;height:${h}%;background:rgba(255,255,255,.25);border-radius:3px"></i>`).join('')}</div></div></div>
+        <div style="position:absolute;left:28px;bottom:28px;right:28px"><span class="eyebrow">02 · The app</span><h3 class="h3" style="margin-top:8px">Sleep, recovery and movement in one place.</h3></div></div>
+      <div class="card" style="background:var(--blue);color:#fff;min-height:420px;position:relative;overflow:hidden"><div style="position:absolute;right:-40px;top:-40px;width:260px;height:260px;border-radius:50%;border:44px solid rgba(255,255,255,.12)"></div><div style="position:absolute;left:28px;top:28px"><span class="chip">Membership</span></div><div style="position:absolute;left:28px;bottom:28px;right:28px"><span class="eyebrow" style="color:rgba(255,255,255,.7)">03 · Membership</span><h3 class="h3" style="margin-top:8px">The full Ultrahuman experience, ready the day the ring arrives.</h3></div></div>
+    </div>
+  </section>
+
+  <!-- 7. FAQ -->
+  <section class="sec pad" style="padding-top:40px">
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:48px" id="faqgrid">
+      <div><span class="eyebrow">FAQ</span><h2 class="h2" style="margin-top:12px">Good to know.</h2><a class="btn btn-secondary" style="margin-top:22px" href="#redeem">Redeem a code</a></div>
+      ${faq(GEN_FAQ())}</div>
+  </section>
+
+  <footer>
+    <div class="cols"><div><span class="logo"><i></i>ULTRAHUMAN</span><p style="color:rgba(255,255,255,.55);margin-top:14px;max-width:320px;font-size:14px">Prototype for the unified gifting flow. Copy, prices and bands are placeholders.</p></div>
+    <div><a href="#gifting">Gifting</a><a href="#corporate">Sizing kits</a><a href="#vouchers">Vouchers</a><a href="#gift-card">Gift card</a></div>
+    <div><a href="#redeem">Redeem a code</a><a href="#">Ring AIR</a><a href="#">Ring PRO</a></div>
+    <div><a href="#">Support</a><a href="#">Returns</a><a href="#">Terms</a></div></div>
+  </footer>
+  </div>
+  <style>@media(max-width:900px){#pathgrid{grid-template-columns:1fr!important}#faqgrid{grid-template-columns:1fr!important;gap:20px!important}}</style>`;
+}
+
+/* =====================================================================
+   CORPORATE — GIFT SIZING KITS (priority)
+   ===================================================================== */
+function gskLive(){
+  const q=S.gsk.qty, b=band(q), lp=ringPrice(), u=unit(q), total=u*q, list=lp*q, nb=nextBand(q);
+  let nudge='';
+  if(nb){ const need=nb.min-q; nudge=`<div class="nudge">Add <b>${need} more kit${need>1?'s':''}</b> to unlock <b>${nb.pct}% off</b>${b.pct?` (now ${b.pct}%)`:''}.</div>`; }
+  else nudge=`<div class="nudge">You are on our <b>top band</b>. Need more than ${q}? <span class="link">Talk to us</span>.</div>`;
+  return `
+    <div class="row"><span class="lbl" style="margin:0">Price per kit</span>${b.pct?`<span class="save">${b.pct}% volume discount</span>`:`<span class="small muted">No discount below 5</span>`}</div>
+    <div class="row" style="margin-top:6px;align-items:flex-end"><div class="price-big">${fmt(u)}</div>${b.pct?`<div class="strike">${fmt(lp)}</div>`:'<div></div>'}</div>
+    ${nudge}
+    <hr>
+    <div class="sum">
+      <div class="l"><span>${q} × ${RINGS[S.ring].name} kit</span><span>${fmt(list)}</span></div>
+      ${b.pct?`<div class="l"><span>Volume discount (${b.pct}%)</span><span style="color:var(--green)">− ${fmt(list-total)}</span></div>`:''}
+      <div class="l"><span>Shipping</span><span>Free</span></div>
+      <div class="l t"><span>Total</span><span>${fmt(total)}</span></div>
+    </div>`;
+}
+function viewCorporate(){
+  const q=S.gsk.qty;
+  return `<div class="wrap fade pad">
+  ${crumb('Gift sizing kits')}
+  <div class="detail">
+    <div class="main">
+      <!-- 1. HERO -->
+      <section>
+        <span class="eyebrow">Corporate · Gift sizing kits</span>
+        <h1 class="display d-lg" style="margin:14px 0 18px">Buy sizing kits.<br>They pick the ring.</h1>
+        <p class="lead">Order kits in bulk at a volume discount. Each person sizes themselves at home, then redeems their code for the ring they actually want.</p>
+        <div class="visual" style="height:440px">
+          <div class="glow" style="width:420px;height:420px;background:#1539F5;right:-60px;top:-100px;opacity:.5"></div>
+          <div class="art-ring" style="right:5%;top:8%;transform:rotate(-22deg) scaleY(.9)">${ring(250,'titanium')}</div>
+          <div class="art-ring" style="right:34%;top:46%;transform:rotate(14deg) scaleY(.9)">${ring(150,'black')}</div>
+          <div style="position:absolute;left:28px;top:28px"><span class="chip" style="background:rgba(255,255,255,.14)">1 kit = 1 sizer set + 1 purchase code</span></div>
+          <div class="sizers" style="position:absolute;left:28px;bottom:60px">${[40,46,52,58,64,70].map((z,i)=>`<span class="sizer" style="width:${z}px;height:${z}px;border-color:${['#5b5750','#6d685f','#807a70','#948e82','#a9a296','#bdb6a8'][i]}"><b>${i+6}</b></span>`).join('')}</div>
+          <div class="cap">Sizer set, sizes 6–11</div>
+        </div>
+      </section>
+
+      <!-- 3. DISCOUNT BANDS -->
+      <section>
+        <span class="eyebrow">Discount bands</span><h2 class="h2" style="margin:12px 0 22px">The more you gift, the less each costs.</h2>
+        <div class="tbl" id="bandtbl">
+          <div class="tr th"><span>Kits</span><span>Discount</span><span>Per kit</span><span>Example order</span></div>
+          ${GSK_BANDS.map((b,i)=>`<div class="tr ${band(q)===b?'on':''}" id="br${i}"><span>${b.max===Infinity?b.min+'+':b.min===b.max?b.min:b.min+'–'+b.max}</span><span class="pct">${b.pct?b.pct+'%':'—'}</span><span>${fmt(ringPrice()*(1-b.pct/100))}</span><span class="muted">${b.min} kit${b.min>1?'s':''}: ${fmt(ringPrice()*(1-b.pct/100)*b.min)}</span></div>`).join('')}
+        </div>
+        <p class="fine">Illustrative bands — final bands to be confirmed. Discounts are fixed per order and apply to ring products only.</p>
+      </section>
+
+      <!-- 4. HOW IT WORKS -->
+      <section>
+        <span class="eyebrow">How it works</span><h2 class="h2" style="margin:12px 0 22px">From your inbox to their finger.</h2>
+        <div class="grid g3">${[
+          ['Kits ship to you','One box per recipient, sent to your office or home. Codes are also emailed to you.'],
+          ['They size at home','Sizers and instructions are in the kit. They find their size in a minute.'],
+          ['They redeem their code','On the ring purchase flow, at the discounted price. They pick the finish.']
+        ].map((x,i)=>`<div class="step"><span class="n">0${i+1}</span><div><h4>${x[0]}</h4><p>${x[1]}</p></div></div>`).join('')}</div>
+      </section>
+
+      <!-- 5. WHAT'S IN THE KIT -->
+      <section>
+        <span class="eyebrow">What is in the kit</span><h2 class="h2" style="margin:12px 0 22px">Everything they need to choose.</h2>
+        <div class="kitlist">
+          <div class="kit"><div class="ic"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#000" stroke-width="1.5"><circle cx="9" cy="14" r="6"/><circle cx="17" cy="12" r="4.5"/></svg></div><div><h4 class="h3">Sizers</h4><p class="muted small" style="margin-top:6px">A set of sizing rings, so they can try before they choose.</p></div></div>
+          <div class="kit"><div class="ic"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#000" stroke-width="1.5"><rect x="5" y="3" width="16" height="20" rx="2"/><path d="M9 9h8M9 13h8M9 17h5"/></svg></div><div><h4 class="h3">Instructions</h4><p class="muted small" style="margin-top:6px">A one-page guide to sizing correctly and wearing the right finger.</p></div></div>
+          <div class="kit" style="background:var(--blue);color:#fff"><div class="ic"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#112BAF" stroke-width="1.5"><rect x="3" y="7" width="20" height="12" rx="2"/><path d="M9 7v12" stroke-dasharray="2 2"/></svg></div><div><h4 class="h3">Purchase code</h4><p class="small" style="margin-top:6px;color:rgba(255,255,255,.75)">Their personal code, <span class="mono">GIFT-${'<order>'.replace('<','&lt;').replace('>','&gt;')}-n</span>. Works once, only on this store.</p></div></div>
+        </div>
+      </section>
+
+      <!-- 6. FAQ -->
+      <section>
+        <span class="eyebrow">FAQ</span><h2 class="h2" style="margin:12px 0 22px">Before you order.</h2>
+        ${faq([
+          ['How long is a code valid?','Six months from the day you buy. We email you before the codes expire.'],
+          ['Can a code be used more than once?','No. One use per code and one code per email. Codes do not combine with other discounts or gift cards.'],
+          ['Which store do the codes work on?',`The store you bought from. Codes bought on the ${st().name} store only redeem on the ${st().name} store.`],
+          ['Can I order both AIR and PRO?','Yes, as two orders. Each sizing-kit order is for a single ring model.'],
+          ['What do the codes cover?','Ring products only. No accessories, no membership on its own.']
+        ])}
+      </section>
+    </div>
+
+    <!-- 2. QUANTITY SELECTOR / PURCHASE PANEL -->
+    <aside class="sticky"><div class="panel">
+      ${ringPicker()}
+      <hr>
+      <span class="lbl">Number of kits</span>
+      <div class="stepper"><button onclick="gskQty(-1)" aria-label="Fewer">−</button><input id="gq" type="number" min="1" max="1000" value="${q}" oninput="gskSet(this.value)"><button onclick="gskQty(1)" aria-label="More">+</button></div>
+      <div class="qchips" id="gchips">${[5,10,25,50,100].map(n=>`<button class="${n===q?'on':''}" onclick="gskSet(${n});$('#gq').value=${n}">${n}</button>`).join('')}</div>
+      <hr>
+      <div id="gskLive">${gskLive()}</div>
+      <button class="btn btn-primary btn-block" style="margin-top:18px;height:54px" onclick="buyGsk()">Buy now</button>
+      <p class="fine">One ring model per order. Want both AIR and PRO? Place two orders. Codes are created when you pay.</p>
+    </div></aside>
+  </div></div>`;
+}
+function gskSet(v){
+  let n=parseInt(v,10); if(isNaN(n)||n<1) n=1; if(n>1000) n=1000;
+  S.gsk.qty=n; paintGsk();
+}
+function gskQty(d){ gskSet(S.gsk.qty+d); const i=$('#gq'); if(i) i.value=S.gsk.qty; }
+function paintGsk(){
+  const q=S.gsk.qty;
+  const live=$('#gskLive'); if(live) live.innerHTML=gskLive();
+  GSK_BANDS.forEach((b,i)=>{const r=$('#br'+i); if(r) r.classList.toggle('on',band(q)===b);});
+  document.querySelectorAll('#gchips button').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===q));
+  paintBar();
+}
+function buyGsk(){
+  const q=S.gsk.qty;
+  S.cart={type:'corporate',ring:S.ring,qty:q,unit:unit(q),list:ringPrice()*q,total:unit(q)*q,pct:band(q).pct,store:S.store};
+  location.hash='#checkout';
+}
+
+/* =====================================================================
+   VOUCHERS
+   ===================================================================== */
+function vLive(){
+  const {band:b,qty:q}=S.v, total=b*q;
+  return `
+    <div class="row"><span class="lbl" style="margin:0">Order total</span><span class="small muted">${q} code${q>1?'s':''} × ${fmt(b)}</span></div>
+    <div class="price-big" style="margin-top:6px">${fmt(total)}</div>
+    <div class="nudge">${q>1?`You will receive <b>${q} separate codes</b>, each worth <b>${fmt(b)}</b>.`:`You will receive <b>1 code</b> worth <b>${fmt(b)}</b>.`} Balance stays on the code.</div>`;
+}
+function viewVouchers(){
+  const s=st();
+  return `<div class="wrap fade pad">
+  ${crumb('Ring vouchers')}
+  <div class="detail">
+    <div class="main">
+      <section>
+        <span class="eyebrow">Corporate · Ring vouchers</span>
+        <h1 class="display d-lg" style="margin:14px 0 18px">Pick a value.<br>We send the codes.<br>They choose.</h1>
+        <p class="lead">No sizing, no shipping, no spreadsheets. Pay once, get every code, and let each person spend theirs on the ring they want.</p>
+        <div class="visual" style="background:#EDEBE6;color:#000;height:440px">
+          <div class="vcard" style="position:absolute;left:8%;top:12%;transform:rotate(-9deg)"><div class="logo"><i></i>ULTRAHUMAN</div><div class="amt" id="vArtAmt">${fmt(S.v.band)}</div><div class="code">UHV-7K2P-9QXM</div></div>
+          <div class="vcard k" style="position:absolute;left:30%;top:30%;transform:rotate(4deg)"><div class="logo"><i></i>ULTRAHUMAN</div><div class="amt">${fmt(S.v.band)}</div><div class="code">UHV-3WNA-4RTE</div></div>
+          <div class="vcard l" style="position:absolute;left:46%;top:48%;transform:rotate(-3deg)"><div class="logo"><i></i>ULTRAHUMAN</div><div class="amt">${fmt(S.v.band)}</div><div class="code">UHV-X9DL-2HBC</div></div>
+          <div class="cap" style="color:var(--muted)">One code per recipient</div>
+        </div>
+      </section>
+      <section>
+        <span class="eyebrow">How it works</span><h2 class="h2" style="margin:12px 0 22px">Pay once. Pass them on.</h2>
+        <div class="grid g4">${HIW.voucher.steps.map((x,i)=>`<div class="step"><span class="n">0${i+1}</span><div><h4>${x[0]}</h4><p>${x[1]}</p></div></div>`).join('')}</div>
+      </section>
+      <section>
+        <span class="eyebrow">What a voucher covers</span><h2 class="h2" style="margin:12px 0 22px">The ring, and more.</h2>
+        <div class="cov">
+          <div class="card-w"><h4 class="h3" style="margin-bottom:16px">Covers</h4><ul class="ticks">${['Ring AIR and Ring PRO','Accessories and everything else in the store','Shipping and tax'].map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul></div>
+          <div class="card-w"><h4 class="h3" style="margin-bottom:16px">How the balance works</h4><ul class="ticks">${['Balance stays on the code','Partial use allowed, the remainder stays','Combines with other discount codes'].map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul></div>
+        </div>
+      </section>
+      <section>
+        <span class="eyebrow">FAQ</span><h2 class="h2" style="margin:12px 0 22px">Before you order.</h2>
+        ${faq([
+          ['When do vouchers expire?','Twelve months from the day they are created.'],
+          ['Can recipients check their balance?','Yes. They can enter the code on the redemption page to see what is left.'],
+          ['Which regions?',`Vouchers bought on the ${st().name} store only redeem on the ${st().name} store, in ${st().code}.`],
+          ['One code per person?','Yes. A code binds to the first email that redeems it, so it cannot be split between people.'],
+          ['Can I mix values in one order?','One value per order. Place another order for a different value.']
+        ])}
+      </section>
+    </div>
+    <aside class="sticky"><div class="panel">
+      <span class="lbl">Value per code</span>
+      <div class="bands" id="vbands">${s.bands.map(b=>`<button class="${b===S.v.band?'on':''}" onclick="vBand(${b})">${fmt(b)}</button>`).join('')}</div>
+      <hr>
+      <span class="lbl">Number of codes <span style="font-weight:400">(1–50)</span></span>
+      <div class="stepper"><button onclick="vQty(-1)" aria-label="Fewer">−</button><input id="vq" type="number" min="1" max="50" value="${S.v.qty}" oninput="vSet(this.value)"><button onclick="vQty(1)" aria-label="More">+</button></div>
+      <div class="qchips" id="vchips">${[1,5,10,25,50].map(n=>`<button class="${n===S.v.qty?'on':''}" onclick="vSet(${n});$('#vq').value=${n}">${n}</button>`).join('')}</div>
+      <hr>
+      <div id="vLive">${vLive()}</div>
+      <button class="btn btn-primary btn-block" style="margin-top:18px;height:54px" onclick="buyV()">Pay</button>
+      <p class="fine">Codes appear instantly on the next screen and in your email.</p>
+    </div></aside>
+  </div></div>`;
+}
+function vBand(b){ S.v.band=b; document.querySelectorAll('#vbands button').forEach(x=>x.classList.toggle('on',x.textContent===fmt(b))); paintV(); }
+function vSet(v){ let n=parseInt(v,10); if(isNaN(n)||n<1)n=1; if(n>50)n=50; S.v.qty=n; paintV(); }
+function vQty(d){ vSet(S.v.qty+d); const i=$('#vq'); if(i) i.value=S.v.qty; }
+function paintV(){
+  $('#vLive').innerHTML=vLive();
+  document.querySelectorAll('#vchips button').forEach(b=>b.classList.toggle('on',parseInt(b.textContent)===S.v.qty));
+  document.querySelectorAll('.vcard .amt').forEach(a=>a.textContent=fmt(S.v.band));
+  paintBar();
+}
+function buyV(){
+  S.cart={type:'voucher',band:S.v.band,qty:S.v.qty,total:S.v.band*S.v.qty,store:S.store};
+  location.hash='#checkout';
+}
+
+/* =====================================================================
+   GIFT CARD (individual)
+   ===================================================================== */
+const todayISO = () => new Date().toISOString().slice(0,10);
+function gcPreview(){
+  const g=S.gc;
+  const when = g.when==='now' ? 'Delivered right after payment' : (g.date?`Held until ${fmtD(g.date)}`:'Pick a date');
+  return `
+  <div class="email"><div class="bar"><i></i><i></i><i></i></div>
+    <div class="body">
+      <div class="rw art-ring" style="transform:rotate(-24deg) scaleY(.9)">${ring(190,RINGS[S.ring].fin[0])}</div>
+      ${wordmark.replace('class="logo"','class="logo" style="color:#fff;position:relative;z-index:2"').replace('<i>','<i style="background:#fff">')}
+      <div class="to">${g.rName?esc(g.rName.split(' ')[0]):'Maya'},<br>a gift for you.</div>
+      <div class="msg">${g.msg?'“'+esc(g.msg)+'”':'“Your personal message appears here.”'}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);margin:10px 0 14px;position:relative;z-index:2">${g.gName?`From ${esc(g.gName)} · `:''}${RINGS[S.ring].name}</div>
+      <div class="codebox"><span class="mono" style="font-size:14px">UH-GIFT-••••-••••</span><span class="tag" style="background:#fff;color:#000">Redeem</span></div>
+    </div></div>
+    <div class="small muted" style="margin-top:10px;display:flex;gap:8px;align-items:center"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="6"/><path d="M7 3.5V7l2.5 1.5"/></svg><span id="gcWhen">${when}</span></div>`;
+}
+function gcLive(){
+  const g=S.gc;
+  return `<div class="sum"><div class="l"><span>${RINGS[S.ring].name}</span><span>${fmt(ringPrice())}</span></div>
+    <div class="l"><span>For</span><span>${g.rName?esc(g.rName):'—'}</span></div>
+    <div class="l"><span>Shipping &amp; tax on the ring</span><span>Covered</span></div>
+    <div class="l t"><span>Total</span><span>${fmt(ringPrice())}</span></div></div>`;
+}
+function fld(id,label,ph,type='text',extra=''){
+  return `<div class="field" id="f_${id}"><label for="${id}">${label}</label><input class="inp" id="${id}" type="${type}" placeholder="${ph}" value="${esc(S.gc[id]||'')}" oninput="gcIn('${id}',this.value)" ${extra}><span class="errmsg" id="e_${id}"></span></div>`;
+}
+function viewGift(){
+  const g=S.gc;
+  return `<div class="wrap fade pad">
+  ${crumb('Gift card')}
+  <div class="detail">
+    <div class="main">
+      <section>
+        <span class="eyebrow">Individual · Gift card</span>
+        <h1 class="display d-lg" style="margin:14px 0 18px">Gift the ring.<br>They pick the size<br>and finish.</h1>
+        <p class="lead">You pay for the ring. We email them a code and a link. They choose the size and finish that is right for them.</p>
+      </section>
+      <section style="margin-top:44px!important">
+        <div class="fstep"><div class="num">1</div><div class="body"><h3 class="h3">Choose the ring</h3>${ringPicker()}
+          <p class="small muted" style="margin-top:10px">You pay the full ring price. No bands.</p></div></div>
+        <div class="fstep"><div class="num">2</div><div class="body"><h3 class="h3">Your details</h3>
+          <div class="two">${fld('gName','Your name','Sam Carter')}${fld('gEmail','Your email','sam@email.com','email')}</div>
+          <p class="small muted" style="margin-top:-4px">Your email receives the receipt and a copy of the code.</p></div></div>
+        <div class="fstep"><div class="num">3</div><div class="body"><h3 class="h3">Their details</h3>
+          <div class="two">${fld('rName','Their name','Maya Rao')}${fld('rEmail','Their email','maya@email.com','email')}</div>
+          <div class="field"><label for="msg">Personal message <span style="font-weight:400">(optional)</span></label><textarea class="inp" id="msg" maxlength="200" placeholder="Happy birthday. Sleep well." oninput="gcIn('msg',this.value);$('#cnt').textContent=this.value.length+' / 200'">${esc(g.msg)}</textarea><div class="cnt" id="cnt">${g.msg.length} / 200</div></div></div></div>
+        <div class="fstep"><div class="num">4</div><div class="body"><h3 class="h3">Send date</h3>
+          <div class="radio"><button class="${g.when==='now'?'on':''}" onclick="gcWhen('now')">Send now</button><button class="${g.when==='date'?'on':''}" onclick="gcWhen('date')">Pick a date</button></div>
+          <div class="field ${g.when==='date'?'':'hide'}" id="f_date" style="margin-top:14px;max-width:260px"><input class="inp" type="date" id="date" min="${todayISO()}" value="${g.date}" oninput="gcIn('date',this.value)"><span class="errmsg" id="e_date"></span></div>
+          <p class="small muted" style="margin-top:10px">The code is created when you pay. The email to them is held until the date you choose.</p></div></div>
+      </section>
+      <section>
+        <span class="eyebrow">How it works</span><h2 class="h2" style="margin:12px 0 22px">Pay. Send. They choose.</h2>
+        <div class="grid g4">${HIW.gc.steps.map((x,i)=>`<div class="step"><span class="n">0${i+1}</span><div><h4>${x[0]}</h4><p>${x[1]}</p></div></div>`).join('')}</div>
+      </section>
+      <section>
+        <span class="eyebrow">What is covered</span><h2 class="h2" style="margin:12px 0 22px">One ring, fully paid for.</h2>
+        <div class="cov">
+          <div class="card-w"><h4 class="h3" style="margin-bottom:16px">Included</h4><ul class="ticks">${['One ring of the model you choose','Any finish, any size','Shipping and tax on the ring order'].map(x=>`<li>${tick}<span>${x}</span></li>`).join('')}</ul></div>
+          <div class="card-w"><h4 class="h3" style="margin-bottom:16px">Not included</h4><ul class="ticks no">${['Accessories','Membership on its own'].map(x=>`<li>${cross}<span>${x}</span></li>`).join('')}</ul></div>
+        </div>
+      </section>
+      <section>
+        <span class="eyebrow">FAQ</span><h2 class="h2" style="margin:12px 0 22px">Questions people ask.</h2>
+        ${faq([
+          ['Can they switch from AIR to PRO?','Yes. If they pick PRO, they pay the difference. If you gifted PRO and they choose AIR, the difference is not refunded.'],
+          ['When does the gift card expire?','Twelve months from the day it is created.'],
+          ['What if they already own a ring?','They can still redeem it for another ring, for example as a spare or for a partner. Talk to support if you would like to swap the gift.'],
+          ['What about returns?','Returns follow the standard policy, and any refund goes to you, the person who paid.'],
+          ['Do they need a sizing kit?','If they are unsure of their size, a sizing kit ships first. Nothing extra for you to do.']
+        ])}
+      </section>
+    </div>
+    <aside class="sticky"><div class="panel">
+      <div id="gcPrev">${gcPreview()}</div>
+      <hr>
+      <div id="gcLive">${gcLive()}</div>
+      <button class="btn btn-primary btn-block" style="margin-top:16px;height:54px" onclick="buyGc()">Pay ${fmt(ringPrice())}</button>
+      <p class="fine">Gifting ${RINGS[S.ring].name} · ${fmt(ringPrice())}${g.rName?' · for '+esc(g.rName):''}</p>
+    </div></aside>
+  </div></div>`;
+}
+function gcIn(k,v){ S.gc[k]=v; const f=$('#f_'+k); if(f) f.classList.remove('bad'); $('#gcPrev').innerHTML=gcPreview(); $('#gcLive').innerHTML=gcLive(); paintBar(); }
+function gcWhen(w){ S.gc.when=w; render(true); }
+function buyGc(){
+  const g=S.gc, re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/; let ok=true;
+  const chk=(id,cond,msg)=>{ const f=$('#f_'+id), e=$('#e_'+id); if(!f) return; if(!cond){ f.classList.add('bad'); e.textContent=msg; ok=false; } else f.classList.remove('bad'); };
+  chk('gName',g.gName.trim(),'Enter your name');
+  chk('gEmail',re.test(g.gEmail),'Enter a valid email');
+  chk('rName',g.rName.trim(),'Enter their name');
+  chk('rEmail',re.test(g.rEmail),'Enter a valid email');
+  if(g.when==='date') chk('date',g.date && g.date>=todayISO(),'Pick a date from today onwards');
+  if(!ok){ const f=document.querySelector('.field.bad'); if(f) f.scrollIntoView({behavior:'smooth',block:'center'}); toast('A few details are missing'); return; }
+  S.cart={type:'giftcard',ring:S.ring,total:ringPrice(),store:S.store,...g};
+  location.hash='#checkout';
+}
+
+/* =====================================================================
+   CHECKOUT (shared, simulated)
+   ===================================================================== */
+function defaultCart(type){
+  const q=S.gsk.qty;
+  if(type==='voucher') return {type,band:S.v.band,qty:S.v.qty,total:S.v.band*S.v.qty,store:S.store};
+  if(type==='giftcard') return {type,ring:S.ring,total:ringPrice(),store:S.store,gName:'Sam Carter',gEmail:'sam@email.com',rName:'Maya Rao',rEmail:'maya@email.com',msg:'Happy birthday. Sleep well.',when:'now',date:''};
+  return {type:'corporate',ring:S.ring,qty:q,unit:unit(q),list:ringPrice()*q,total:unit(q)*q,pct:band(q).pct,store:S.store};
+}
+const TITLES={corporate:'Gift sizing kits',voucher:'Ring vouchers',giftcard:'Gift card'};
+function viewCheckout(){
+  if(!S.cart) S.cart=defaultCart('corporate');
+  const c=S.cart, s=st();
+  let lines='';
+  if(c.type==='corporate') lines=`
+    <div class="l"><span>${c.qty} × ${RINGS[c.ring].name} sizing kit</span><span>${fmt(c.list)}</span></div>
+    ${c.pct?`<div class="l"><span>Volume discount (${c.pct}%)</span><span style="color:var(--green)">− ${fmt(c.list-c.total)}</span></div>`:''}
+    <div class="l"><span>Shipping</span><span>Free</span></div>`;
+  if(c.type==='voucher') lines=`<div class="l"><span>${c.qty} voucher${c.qty>1?'s':''} × ${fmt(c.band)}</span><span>${fmt(c.total)}</span></div><div class="l"><span>Delivery</span><span>Instant</span></div>`;
+  if(c.type==='giftcard') lines=`<div class="l"><span>${RINGS[c.ring].name} gift card</span><span>${fmt(c.total)}</span></div><div class="l"><span>For</span><span>${esc(c.rName)}</span></div><div class="l"><span>Send</span><span>${c.when==='now'?'Now':fmtD(c.date)}</span></div>`;
+  const who = c.type==='giftcard' ? '' : `
+    <div class="card-w" style="margin-bottom:12px"><h3 class="h3" style="margin-bottom:16px">${c.type==='corporate'?'Company':'Your details'}</h3>
+      ${c.type==='corporate'?`<div class="field"><label>Company name</label><input class="inp" id="co" placeholder="Acme Inc."></div>`:''}
+      <div class="two"><div class="field"><label>Full name</label><input class="inp" id="cn" placeholder="Sam Carter"></div><div class="field"><label>${c.type==='corporate'?'Work email':'Email (codes are sent here)'}</label><input class="inp" id="ce" type="email" placeholder="sam@company.com"></div></div>
+      ${c.type==='corporate'?`<div class="field"><label>${s.tax}</label><input class="inp" placeholder=""></div>`:''}
+    </div>
+    ${c.type==='corporate'?`<div class="card-w" style="margin-bottom:12px"><h3 class="h3" style="margin-bottom:16px">Ship kits to</h3>
+      <div class="field"><label>Address</label><input class="inp" placeholder="Street and number"></div>
+      <div class="two"><div class="field"><label>City</label><input class="inp"></div><div class="field"><label>Postcode</label><input class="inp"></div></div>
+      <div class="field" style="margin:0"><label>Country</label><input class="inp" value="${s.name}" disabled></div></div>`:''}`;
+  return `<div class="wrap fade pad">
+  <div class="crumb"><a href="#gifting">Gifting</a><span>/</span><a href="#${{corporate:'corporate',voucher:'vouchers',giftcard:'gift-card'}[c.type]}">${TITLES[c.type]}</a><span>/</span><span style="color:#000">Checkout</span></div>
+  <div class="detail" style="padding-bottom:60px"><div class="main">
+    <h1 class="display d-md" style="margin-bottom:26px">Checkout</h1>
+    ${who}
+    <div class="card-w"><h3 class="h3" style="margin-bottom:6px">Payment</h3><p class="small muted" style="margin-bottom:16px">Prototype — payment is simulated. Nothing is charged and no card details are needed.</p>
+      <div class="field"><label>Card number</label><input class="inp" placeholder="4242 4242 4242 4242" inputmode="numeric"></div>
+      <div class="two"><div class="field"><label>Expiry</label><input class="inp" placeholder="MM / YY"></div><div class="field"><label>CVC</label><input class="inp" placeholder="123"></div></div></div>
+  </div>
+  <aside class="sticky"><div class="panel">
+    <span class="eyebrow">Order summary · ${s.flag} ${s.name}</span>
+    <div class="sum" style="margin-top:12px">${lines}<div class="l"><span>Tax</span><span>${s.cities.split(' ').slice(0,2).join(' ')}</span></div><div class="l t"><span>Total</span><span>${fmt(c.total)}</span></div></div>
+    <button class="btn btn-primary btn-block" style="margin-top:18px;height:54px" onclick="pay()">Pay ${fmt(c.total)}</button>
+    <p class="fine">Codes are created on payment and only redeem on the ${s.name} store.</p>
+  </div></aside></div></div>`;
+}
+function pay(){
+  const c=S.cart; if(!c) return;
+  const id=String(10000+Math.floor(Math.random()*89999)), now=new Date();
+  const o={...c,id,created:now,codes:[],giver:{
+    name: c.type==='giftcard'?c.gName:($('#cn')?.value||'Sam Carter'),
+    email:c.type==='giftcard'?c.gEmail:($('#ce')?.value||'sam@company.com'),
+    company:$('#co')?.value||''}};
+  if(c.type==='corporate'){ o.expires=addM(now,6); o.codes=Array.from({length:c.qty},(_,i)=>`GIFT-${id}-${i+1}`); o.per=c.total/c.qty; }
+  if(c.type==='voucher'){ o.expires=addM(now,12); o.codes=Array.from({length:c.qty},()=>`UHV-${rnd(4)}-${rnd(4)}`); o.per=c.band; }
+  if(c.type==='giftcard'){ o.expires=addM(now,12); o.codes=[`UH-GIFT-${rnd(4)}-${rnd(4)}`]; o.per=c.total; }
+  o.codes.forEach(k=>S.issued[k]={type:c.type,ring:c.ring,value:o.per,expires:o.expires,order:id,store:c.store});
+  S.order=o; location.hash='#success';
+}
+
+/* =====================================================================
+   SUCCESS PAGES
+   ===================================================================== */
+function csv(o){
+  const rows=[['code','type','value','currency','expires','store','giver_order_id']];
+  o.codes.forEach(c=>rows.push([c,o.type,Math.round(o.per),STORES[o.store].code,new Date(o.expires).toISOString().slice(0,10),o.store,o.id]));
+  return rows.map(r=>r.join(',')).join('\n');
+}
+function dlCsv(){
+  const o=S.order, blob=new Blob([csv(o)],{type:'text/csv'}), a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=`ultrahuman-codes-${o.id}.csv`; a.click(); toast('Downloaded '+o.codes.length+' code'+(o.codes.length>1?'s':''));
+}
+function shareMsg(o){
+  const link=location.href.split('#')[0]+'#redeem';
+  const val = o.type==='voucher'?`worth ${fmtS(o.per,o.store)}`:`for a ${RINGS[o.ring].name}`;
+  return `Hi! Here is your Ultrahuman Ring ${o.type==='voucher'?'voucher':'gift code'} ${val}.\n\nRedeem it here: ${link}\n\nYour code${o.codes.length>1?'s (one per person)':''}:\n${o.codes.join('\n')}\n\nValid until ${fmtD(o.expires)}.`;
+}
+function fmtS(n,store){ const x=STORES[store]; return new Intl.NumberFormat(x.loc,{style:'currency',currency:x.code,maximumFractionDigits:0}).format(Math.round(n)); }
+function copyText(t,btn){ (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).catch(()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();}); if(btn){btn.textContent='Copied';btn.classList.add('done');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1400);} }
+function shareNow(){
+  const t=$('#shareTxt').value;
+  if(navigator.share) navigator.share({title:'Your Ultrahuman Ring',text:t}).catch(()=>{});
+  else { copyText(t); toast('Share sheet not available here — message copied'); }
+}
+function dev(o){
+  const s=STORES[o.store];
+  const rows = {
+    corporate:[['Object','Shopify discount code, order-based, fixed amount off'],['Created','On payment · '+o.codes.length+' codes (one per kit)'],['Value',fmtS(o.per,o.store)+' per code · set by '+o.pct+'% band'],['Applies to','Ring products only'],['Usage limit','1 use per code · 1 per email'],['Combines with','Nothing (no stacking)'],['Expiry','6 months · '+fmtD(o.expires)],['Prefix','GIFT-'+o.id+'-n → rolls up to giver order'],['Store','Redeems only on '+s.name]],
+    voucher:[['Object','Shopify native gift card × '+o.codes.length],['Created','On payment'],['Balance','Sits on the code, partial redemption allowed'],['Covers','All Ultrahuman products'],['Combines with','Other discount codes'],['Binding','First email that redeems'],['Expiry','12 months · '+fmtD(o.expires)],['Reporting','Tagged with giver order '+o.id],['Store','Redeems only on '+s.name]],
+    giftcard:[['Object','Shopify native gift card (ring value)'],['Created','On payment; email held until '+(o.when==='now'?'now':fmtD(o.date))],['Covers','1 ring, any finish/size, shipping + tax'],['Switching','AIR→PRO pays the difference; PRO→AIR no refund'],['Expiry','12 months · '+fmtD(o.expires)],['Reporting','Tagged with giver order '+o.id],['Store','Redeems only on '+s.name]]
+  }[o.type];
+  return `<details class="dev"><summary><span>What was created behind the scenes</span><span>＋</span></summary><table>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table></details>`;
+}
+function viewSuccess(){
+  if(!S.order){ S.order=demo('corporate'); }
+  const o=S.order, n=o.codes.length, s=STORES[o.store];
+  const rn=o.rName?esc(o.rName.split(' ')[0]):'';
+  const head = {
+    corporate:[`Your ${n} kit${n>1?'s are':' is'} on the way.`,`Order #${o.id} · kits ship to you in 3–5 working days. Codes are below and in your inbox.`],
+    voucher:[`${n} code${n>1?'s are':' is'} ready.`,`Order #${o.id} · ${fmtS(o.total,o.store)} paid. Share or download them now.`],
+    giftcard:[o.when==='now'?`Sent to ${rn}.`:`Scheduled for ${rn}.`,`Order #${o.id} · ${o.when==='now'?'Their email is on its way.':'Their email will arrive on '+fmtD(o.date)+'.'} A receipt and a copy of the code went to ${esc(o.gEmail||o.giver.email)}.`]
+  }[o.type];
+  const next = {
+    corporate:'When the kits arrive, hand them out. Each person sizes themselves, then enters their code on the redemption page to buy their ring at the discounted price.',
+    voucher:'Recipients enter their code at checkout, like a gift card. They can check their balance on the redemption page.',
+    giftcard:`${rn} opens the email, goes to the redemption page, and chooses size and finish.`
+  }[o.type];
+  const codesBlock = `<div class="codes"><div class="scroll">${o.codes.map((c,i)=>`<div class="cr"><span class="idx">${String(i+1).padStart(2,'0')}</span><span class="cd">${c}</span><button class="copy" onclick="copyText('${c}',this)">Copy</button></div>`).join('')}</div></div>`;
+  return `<div class="wrap fade pad">
+  <div style="padding:56px 0 34px;display:flex;gap:26px;align-items:center;flex-wrap:wrap">
+    <div class="okmark"><svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#fff" stroke-width="2.4"><path d="M6 14.5l5.5 5.5L22 9"/></svg></div>
+    <div><span class="eyebrow">${TITLES[o.type]} · Confirmed</span><h1 class="display d-lg" style="margin-top:8px">${head[0]}</h1><p class="lead" style="margin-top:12px">${head[1]}</p></div>
+  </div>
+  <div class="detail" style="padding-top:8px"><div class="main">
+    ${o.type==='giftcard'?`
+      <section><span class="eyebrow">What ${rn} will receive</span><div style="max-width:440px;margin-top:14px">${(()=>{const g=S.gc; S.gc={...S.gc,...o}; const r=gcPreview(); S.gc=g; return r;})()}</div></section>
+      <section><span class="eyebrow">Your copy of the code</span><div class="codes" style="margin-top:14px;max-width:560px"><div class="cr"><span class="cd">${o.codes[0]}</span><button class="copy" onclick="copyText('${o.codes[0]}',this)">Copy</button></div></div></section>`
+    :`
+      <section><div class="sec-head" style="margin-bottom:16px"><div><span class="eyebrow">${o.type==='voucher'?'Your codes':'Purchase codes'}</span><h2 class="h2" style="margin-top:8px">${n} code${n>1?'s':''}${o.type==='voucher'?` · ${fmtS(o.per,o.store)} each`:''}</h2></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-dark btn-sm" onclick="dlCsv()">Download all codes (CSV)</button><button class="btn btn-secondary btn-sm" onclick="copyText(S.order.codes.join('\\n'));toast('All codes copied')">Copy all</button></div></div>
+        ${codesBlock}</section>
+      <section><span class="eyebrow">Share</span><h2 class="h2" style="margin:8px 0 16px">${o.type==='voucher'?'Pass them on.':'Let your team know.'}</h2>
+        <div class="field"><label for="shareTxt">Message — edit before sharing</label><textarea class="inp" id="shareTxt" style="min-height:230px;font-family:var(--mono);font-size:13px">${esc(shareMsg(o))}</textarea></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-primary" onclick="shareNow()">Share ${arrow}</button><button class="btn btn-secondary" onclick="copyText($('#shareTxt').value);toast('Message copied')">Copy message</button></div></section>`}
+    <section>${dev(o)}</section>
+  </div>
+  <aside class="sticky"><div class="panel">
+    <span class="eyebrow">Order summary</span>
+    <div class="sum" style="margin-top:12px">
+      <div class="l"><span>Order</span><span>#${o.id}</span></div>
+      <div class="l"><span>Store</span><span>${s.flag} ${s.name}</span></div>
+      <div class="l"><span>Codes</span><span>${n}</span></div>
+      ${o.type==='corporate'?`<div class="l"><span>Ring</span><span>${RINGS[o.ring].name}</span></div>${o.pct?`<div class="l"><span>Discount</span><span>${o.pct}% off</span></div>`:''}`:''}
+      ${o.type==='giftcard'?`<div class="l"><span>Ring</span><span>${RINGS[o.ring].name}</span></div>`:''}
+      <div class="l"><span>Valid until</span><span>${fmtD(o.expires)}</span></div>
+      <div class="l t"><span>Total</span><span>${fmtS(o.total,o.store)}</span></div></div>
+    <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+    <span class="eyebrow">Next step</span>
+    <p style="margin:8px 0 16px;font-size:15px;color:var(--muted)">${next}</p>
+    <a class="btn btn-secondary btn-block" href="#redeem">Go to redemption page ${arrow}</a>
+    <a class="btn btn-block" style="margin-top:6px;height:40px;font-size:14px" href="#gifting">Back to gifting</a>
+  </div></aside></div></div>`;
+}
+function demo(type){
+  S.cart=defaultCart(type); const keep=S.cart;
+  // synthesize like pay() without navigation
+  const c=keep, id=String(48210), now=new Date();
+  const o={...c,id,created:now,codes:[],giver:{name:'Sam Carter',email:'sam@company.com',company:''}};
+  if(type==='corporate'){ o.expires=addM(now,6); o.codes=Array.from({length:c.qty},(_,i)=>`GIFT-${id}-${i+1}`); o.per=c.total/c.qty; }
+  if(type==='voucher'){ o.expires=addM(now,12); o.codes=Array.from({length:c.qty},()=>`UHV-${rnd(4)}-${rnd(4)}`); o.per=c.band; }
+  if(type==='giftcard'){ o.expires=addM(now,12); o.codes=[`UH-GIFT-${rnd(4)}-${rnd(4)}`]; o.per=c.total; }
+  o.codes.forEach(k=>S.issued[k]={type:c.type,ring:c.ring,value:o.per,expires:o.expires,order:id,store:c.store});
+  return o;
+}
+
+/* =====================================================================
+   REDEEM (purchase code redemption page — minimal, for context)
+   ===================================================================== */
+function viewRedeem(){
+  return `<div class="wrap fade pad"><div class="redeem">
+    <span class="eyebrow">Redeem</span>
+    <h1 class="display d-lg" style="margin:12px 0 16px">Redeem your code.</h1>
+    <p class="lead" style="margin-bottom:26px">Enter the code you were given. Works for sizing-kit codes, vouchers and gift cards.</p>
+    <div class="codein"><input class="inp" id="rcode" placeholder="GIFT-48210-1 · UHV-XXXX-XXXX · UH-GIFT-XXXX-XXXX" style="font-family:var(--mono);font-size:14px;text-transform:uppercase" onkeydown="if(event.key==='Enter')lookup()"><button class="btn btn-primary" onclick="lookup()">Apply</button></div>
+    <p class="small muted" style="margin-top:10px">Prototype tip: use a code from a success page, or try <a class="link" onclick="$('#rcode').value='GIFT-48210-1';lookup()">GIFT-48210-1</a>.</p>
+    <div id="rres"></div>
+  </div></div>`;
+}
+function lookup(){
+  const raw=$('#rcode').value.trim().toUpperCase(); if(!raw) return;
+  let r=S.issued[raw];
+  if(!r && /^GIFT-\d+-\d+$/.test(raw)) r={type:'corporate',ring:S.ring,value:ringPrice()*.9,expires:addM(new Date(),6),store:S.store,order:raw.split('-')[1],demo:true};
+  const out=$('#rres');
+  if(!r){ out.innerHTML=`<div class="res" style="background:#FDECEA"><b style="font-weight:500">We could not find that code.</b><p class="small muted" style="margin-top:4px">Check for typos. Codes only work on the store they were issued on.</p></div>`; return; }
+  const sNow=S.store, wrongStore = r.store!==sNow;
+  const lines = {
+    corporate:[`Sizing-kit code`,`Covers one ${RINGS[r.ring||'AIR'].name}. Ring products only. One use. Does not combine with other discounts.`,'Choose your size and finish'],
+    voucher:[`Ring voucher · ${fmtS(r.value,r.store)} balance`,`Applies at checkout like a gift card, on any Ultrahuman product. Partial use allowed — the remainder stays on the code.`,'Start shopping'],
+    giftcard:[`Gift card · ${RINGS[r.ring].name}`,`Covers one ${RINGS[r.ring].name}, any size and finish, with shipping and tax. Switching AIR ⇄ PRO is possible.`,'Choose your size and finish']
+  }[r.type];
+  out.innerHTML=`<div class="res fade">
+    <div style="display:flex;gap:12px;align-items:center">${tick}<b style="font-weight:500;font-size:18px;letter-spacing:-.03em">${lines[0]}</b></div>
+    <p class="muted" style="margin:10px 0 14px">${lines[1]}</p>
+    <div class="sum"><div class="l"><span>Valid until</span><span>${fmtD(r.expires)}</span></div><div class="l"><span>Store</span><span>${STORES[r.store].flag} ${STORES[r.store].name}</span></div><div class="l"><span>Giver order</span><span>#${r.order}</span></div></div>
+    ${wrongStore?`<div class="nudge" style="background:#FFF2D6">This code was issued on the <b>${STORES[r.store].name}</b> store. Switch store to redeem it.</div>`:''}
+    <button class="btn btn-primary btn-block" style="margin-top:16px" onclick="toast('Continues into the ring purchase flow (out of scope for this prototype)')">${lines[2]}</button></div>`;
+}
+
+/* =====================================================================
+   ROUTER / RENDER
+   ===================================================================== */
+const ROUTES={ '':viewLanding,'gifting':viewLanding,'corporate':viewCorporate,'vouchers':viewVouchers,'gift-card':viewGift,'checkout':viewCheckout,'success':viewSuccess,'redeem':viewRedeem };
+const BAR={ corporate:()=>({s:`${S.gsk.qty} kits · ${band(S.gsk.qty).pct}% off`,t:fmt(unit(S.gsk.qty)*S.gsk.qty),b:'Buy now',f:'buyGsk()'}),
+  vouchers:()=>({s:`${S.v.qty} × ${fmt(S.v.band)} vouchers`,t:fmt(S.v.band*S.v.qty),b:'Pay',f:'buyV()'}),
+  'gift-card':()=>({s:`${RINGS[S.ring].name}${S.gc.rName?' · for '+esc(S.gc.rName.split(' ')[0]):''}`,t:fmt(ringPrice()),b:'Pay',f:'buyGc()'}),
+  checkout:()=>({s:'Total',t:fmt(S.cart?S.cart.total:0),b:'Pay',f:'pay()'}) };
+const route=()=> (location.hash.replace(/^#\/?/,'')||'');
+function paintBar(){
+  const b=$('#mbar'), r=route(), cfg=BAR[r];
+  if(!cfg){ b.className='mbar'; b.innerHTML=''; document.body.classList.remove('hasbar'); return; }
+  const c=cfg(); b.className='mbar has';
+  b.innerHTML=`<div class="s">${c.s}<b>${c.t}</b></div><button class="btn btn-primary" style="height:50px;flex:1;max-width:210px" onclick="${c.f}">${c.b}</button>`;
+  document.body.classList.add('hasbar');
+}
+function render(keepScroll){
+  const y=window.scrollY, r=route();
+  const view=ROUTES[r]||viewLanding;
+  ensureRing();
+  $('#app').innerHTML=view();
+  $('#regionLabel').textContent=st().flag+' '+st().label;
+  paintBar(); paintMenus(); paintProto();
+  if(keepScroll===true) window.scrollTo(0,y); else window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',()=>render());
+
+/* store menu + shop menu */
+function paintMenus(){
+  $('#regionMenu').innerHTML=`<div class="eyebrow" style="padding:8px 12px 6px">Store</div>`+Object.entries(STORES).map(([k,v])=>`<button class="mi ${S.store===k?'on':''}" onclick="setStore('${k}')"><span>${v.flag} ${v.name}</span><span class="muted small">${v.code}</span></button>`).join('');
+}
+function toggleMenu(id,e){ e.stopPropagation(); const m=$('#'+id), was=m.classList.contains('open'); closeMenus(); if(!was) m.classList.add('open'); }
+function closeMenus(){ document.querySelectorAll('.menu').forEach(m=>m.classList.remove('open')); }
+document.addEventListener('click',()=>closeMenus());
+function setStore(k){
+  S.store=k; ensureRing(); S.v.band=st().bands[1]; S.cart=null; closeMenus();
+  render(true); toast('Store: '+st().name+' · '+st().code+(rings().length===1?' · only Ring AIR sold here':''));
+}
+function setRing(k){ S.ring=k; render(true); }
+
+/* prototype panel */
+function toggleProto(){ $('#proto').classList.toggle('open'); }
+function paintProto(){
+  $('#proto').innerHTML=`
+  <h5>Store (currency · ring availability)</h5>
+  <select onchange="setStore(this.value)">${Object.entries(STORES).map(([k,v])=>`<option value="${k}" ${S.store===k?'selected':''}>${v.flag} ${v.name} — ${v.code} — ${Object.keys(v.rings).join(' + ')}</option>`).join('')}</select>
+  <h5>Jump to screen</h5>
+  <div class="jumps">
+    <a href="#gifting">Landing</a><a href="#corporate">Sizing kits</a><a href="#vouchers">Vouchers</a><a href="#gift-card">Gift card</a>
+    <a href="#checkout" onclick="S.cart=defaultCart('corporate')">Checkout</a>
+    <a href="#success" onclick="S.order=demo('corporate')">Success · kits</a><a href="#success" onclick="S.order=demo('voucher')">Success · vouchers</a><a href="#success" onclick="S.order=demo('giftcard')">Success · gift card</a>
+    <a href="#redeem">Redeem</a></div>
+  <h5>Assumptions I made</h5>
+  <ol>
+    <li><b>Kits are pre-paid by the giver.</b> The giver pays the band-discounted ring price per kit and each code covers one ring. Kits ship free; no separate sizer fee.</li>
+    <li>Discount bands (5 / 10 / 15 / 20 / 25%), ring prices and voucher band values per currency are <b>placeholders</b>.</li>
+    <li>India is shown as <b>AIR-only</b> to demo the "no ring picker" rule.</li>
+    <li>Vouchers are ring-agnostic, so no ring picker on that page.</li>
+    <li>Checkout and payment are simulated. Redemption page is a stub.</li>
+  </ol>
+  <h5>Open questions for the brief</h5>
+  <ol>
+    <li class="q">GSK: "fixed amount off set by the band" and "recipient redeems at the discounted price" read two ways — does the recipient pay anything, or is the ring fully prepaid?</li>
+    <li class="q">Is there a cap on GSK quantity (vouchers cap at 50)? Above it, route to sales?</li>
+    <li class="q">GSK has no success page in the brief; I reused the voucher one (codes, CSV, share). OK?</li>
+    <li class="q">Gift-card switch AIR→PRO: how does the redemption page collect the difference, and PRO→AIR forfeits value — is that clear enough at purchase?</li>
+    <li class="q">Corporate vouchers: one value per order. Mixed values means multiple orders — acceptable for HR/ops buyers?</li>
+    <li class="q">Entry points (pricing page, Shop menu): only the Shop menu is mocked.</li>
+  </ol>`;
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeMenus(); $('#proto').classList.remove('open'); } });
+window.addEventListener('resize',()=>{ clearTimeout(window._rz); window._rz=setTimeout(()=>{ if(route()===''||route()==='gifting') render(true); },250); });
+render();
+</script>
+
