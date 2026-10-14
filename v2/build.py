@@ -8,6 +8,7 @@ def svg(m):
     d=open(f"{here}/assets/svg/{m.group(1)}.svg",'rb').read()
     return 'data:image/svg+xml;base64,'+base64.b64encode(d).decode()
 src=re.sub(r'__SVG:([a-z-]+)__',svg,src)
+src=re.sub(r'__INLINE:([a-z-]+)__',lambda m:open(f'{here}/assets/svg/{m.group(1)}.svg').read(),src)
 open(f'{here}/artifact.html','w').write(src)
 doc='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>'+src+'</body></html>'
 open(f'{here}/index.html','w').write(doc)
