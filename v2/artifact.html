@@ -2227,6 +2227,8 @@ html body[data-lp] .sec.fx.dk:not(#paths){position:sticky!important;top:var(--dk
 .cap-p s{font-family:var(--bp-mono);font-size:13px;color:rgba(0,0,0,.35);letter-spacing:-.04em}
 /*VD-CSS-END*/
 /*AS-CSS*/
+html.asdbg #app>*:not(#aseq),html.asdbg header.nav,html.asdbg #mbar,html.asdbg #prog,html.asdbg .bbar2{display:none!important}
+html.asdbg .aseq{height:100vh!important}html.asdbg .as-in{position:relative!important;top:0!important;height:100vh!important;min-height:0!important}
 .aseq{position:relative;height:820svh;background:#fff}.aseq.as-done{height:auto;padding-bottom:clamp(96px,12vw,200px)}.aseq.as-done .as-in{position:relative;top:0}
 .as-in{position:sticky;top:var(--navh,65px);height:calc(100svh - var(--navh,65px));overflow:hidden;--sh:0}
 .as-clip{position:absolute;inset:0;background:#f5f5f5;clip-path:inset(0 0 0 0 round 0);will-change:clip-path}
@@ -3494,15 +3496,26 @@ scan();new MutationObserver(()=>requestAnimationFrame(scan)).observe(document.bo
    const vo=ez(E(p,.86,.97));vid.style.opacity=vo;{const ho=ez(E(p,.88,.99));hd.style.opacity=ho;hd.style.transform=`translateY(${(1-ho)*12}px)`}
    if(vo>0&&!vOn){vOn=true;if(!vid.src&&vid.dataset.src)vid.src=vid.dataset.src;vid.currentTime=0;const pr=vid.play();if(pr&&pr.catch)pr.catch(()=>{})}
   }
-  const kick=()=>{if(!ticking){ticking=1;requestAnimationFrame(tick)}};
+  const DBG=new URLSearchParams(location.search).get('asp');
+  const kick=()=>{if(DBG!==null)return;if(!ticking){ticking=1;requestAnimationFrame(tick)}};
   addEventListener('scroll',kick,{passive:true});addEventListener('resize',()=>{G=null;kick()});
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{G=null;kick()});
+  if(DBG!==null){document.documentElement.classList.add('asdbg');const pv=Math.min(1,Math.max(0,+DBG));measure();{const vt=new URLSearchParams(location.search).get('vt');if(vt!==null){vid.muted=true;vid.src=vid.dataset.src;vid.addEventListener('loadedmetadata',()=>{vid.currentTime=+vt},{once:true})}}cur=pv;if(pv>=.9)best=1;if(pv>=.985)sec.classList.add('as-done');render(pv)}
   if(RM){cur=1}kick();
  }
  function scan(){const e=document.getElementById('aseq');if(e&&!e._i)init()}
  scan();new MutationObserver(()=>requestAnimationFrame(scan)).observe(document.body,{childList:true,subtree:true});
 })();
 /*AS-JS-END*/
+/*ONLY-JS*/
+/* ?only=N shows just the Nth block of the landing page (used for exporting stills) */
+(function(){const Q=new URLSearchParams(location.search),sy=Q.get('sy');if(sy!==null)addEventListener('load',()=>setTimeout(()=>scrollTo({top:+sy,behavior:'instant'}),900));const o=Q.get('only');if(o===null)return;
+ const app=document.getElementById('app');if(!app)return;
+ const apply=()=>{[...app.children].forEach((e,i)=>{e.style.display=(i===+o)?'':'none'})};
+ apply();new MutationObserver(apply).observe(app,{childList:true});
+})();
+/*ONLY-JS-END*/
+
 
 /*HX-JS*/
 /* start the hero intro only once every card has drawn, then run the light sweep across the gold card */
